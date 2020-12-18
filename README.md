@@ -25,24 +25,24 @@ On the main [linux_file_rename_utility](https://github.com/BSFEMA/linux_file_ren
 ###The 'curl' method:
 Download the individual files directly.  Create a folder to store the files, navigate to it in a terminal window and run the following commands:
 
-    curl -LJO https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.py
-    curl -LJO https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.glade
-    curl -LJO https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.css
-    curl -LJO https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.svg
-    curl -LJO https://github.com/BSFEMA/linux_file_rename_utility/blob/master/README.md
-    curl -LJO https://github.com/BSFEMA/linux_file_rename_utility/blob/master/CHANGELOG.md
-    curl -LJO https://github.com/BSFEMA/linux_file_rename_utility/blob/master/LICENSE
+    curl -LJO https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.py
+    curl -LJO https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.glade
+    curl -LJO https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.css
+    curl -LJO https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.svg
+    curl -LJO https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/README.md
+    curl -LJO https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/CHANGELOG.md
+    curl -LJO https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/LICENSE
 
 ###The 'wget' method: 
 Download the individual files directly.  Create a folder to store the files, navigate to it in a terminal window and run the following commands:
 
-    wget --no-check-certificate --content-disposition https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.py
-    wget --no-check-certificate --content-disposition https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.glade
-    wget --no-check-certificate --content-disposition https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.css
-    wget --no-check-certificate --content-disposition https://github.com/BSFEMA/linux_file_rename_utility/blob/master/linux_file_rename_utility.svg
-    wget --no-check-certificate --content-disposition https://github.com/BSFEMA/linux_file_rename_utility/blob/master/README.md
-    wget --no-check-certificate --content-disposition https://github.com/BSFEMA/linux_file_rename_utility/blob/master/CHANGELOG.md
-    wget --no-check-certificate --content-disposition https://github.com/BSFEMA/linux_file_rename_utility/blob/master/LICENSE
+    wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.py
+    wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.glade
+    wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.css
+    wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/linux_file_rename_utility.svg
+    wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/README.md
+    wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/CHANGELOG.md
+    wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/LICENSE
 
 # Command Line Parameters
 There is just 1:  It is the folder path that will be used to start renaming files from.  If this value isn't provided, then the starting path will be where this application file is located.  The intention is that you can call this application from a context menu from a file browser (e.g. Nemo) and it would automatically load up that folder.  If you pass it a path to a file, it will use the folder that the file resides in instead.
