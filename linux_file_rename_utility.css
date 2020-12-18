@@ -1,0 +1,132 @@
+.red-foreground {color:red;}
+.black-foreground {color:black;}  /* not currently used */
+.red-border {border-color: #FF0000; border-style: solid; border-width: 1px;}
+.no-border {border-style: none; border-width: 0px;}
+.grey-border {border-color: #808080; border-style: solid; border-width: 1px;}  /* for status labels */
+.red-blink-text {color: #FF0000; animation: blinker 1s linear infinite;}
+@keyframes blinker {
+ 0%{color: #FF0000;}
+ 33%{color: #FF0000;}
+ 95%{color: transparent;}
+ 100%{color: transparent;}
+}
+.spinner {
+  animation-name: spin;
+  animation-duration: 15s;
+  animation-timing-function: linear;  /* linear, ease, ease-in, ease-out, ease-in-out */
+  animation-iteration-count: infinite;
+}
+@keyframes spin {
+  to { -gtk-icon-transform: rotate(1turn); }
+}
+
+/* Customizable section below */
+
+/* Main Object Types */
+window {}
+box {}
+treeview {}
+scrolledwindow {}
+viewport {}
+button {}
+combobox {}
+spinbutton {}
+checkbutton {}
+entry {}
+label {}
+filechooserbutton {}
+
+/* Individual Objects */
+box#box_Buttons {}
+box#box_Folder_Selecter {}
+box#box_Main {}
+box#box_Options_and_Buttons {}
+box#box_Options {}
+box#box_Status {}
+button#button_About {}
+button#button_Open_Settings {}
+button#button_Refresh_Reselect {}
+button#button_Refresh {}
+button#button_Rename_Pairs {}
+button#button_Rename {}
+button#button_Reset {}
+button#button_Save_Settings {}
+button#button_SaveAs_Settings {}
+checkbox#checkbox_Files {}
+checkbox#checkbox_Folders {}
+checkbox#checkbox_Hidden {}
+checkbox#checkbox_Numbering_Per_Folder {}
+checkbox#checkbox_Save_History {}
+checkbox#checkbox_Subfolders {}
+combobox#combo_Append_Folder_Name {}
+combobox#combo_Case {}
+combobox#combo_Extension {}
+combobox#combo_Name {}
+combobox#combo_Numbering {}
+combobox#combo_Remove_Crop {}
+entry#combo_Append_Folder_Name_Entry {}
+entry#combo_Case_Entry {}
+entry#combo_Extension_entry {}
+entry#combo_Name_Entry {}
+entry#combo_Numbering_Entry {}
+entry#combo_Remove_Crop_Entry {}
+entry#entry_Add_Insert {}
+entry#entry_Add_Prefix {}
+entry#entry_Add_Suffix {}
+entry#entry_Append_Folder_Name_Separator {}
+entry#entry_Extension {}
+entry#entry_Folder_path {}
+entry#entry_Mask {}
+entry#entry_Name_Fixed {}
+entry#entry_Numbering_Separator {}
+entry#entry_Remove_Crop {}
+entry#entry_Replace_Search {}
+entry#entry_Replace_With {}
+label#label_Add_Insert_At {}
+label#label_Add_Insert {}
+label#label_Add_Main {}
+label#label_Add_Prefix {}
+label#label_Add_Suffix {}
+label#label_Append_Folder_Name_Separator {}
+label#label_Append_Main {}
+label#label_Case_Main {}
+label#label_Extension_Main {}
+label#label_Files_File_Name_Max {}
+label#label_Files_File_Name_Min {}
+label#label_Files_Main {}
+label#label_Name_Main {}
+label#label_Numbering_At {}
+label#label_Numbering_Increment {}
+label#label_Numbering_Main {}
+label#label_Numbering_Padding {}
+label#label_Numbering_Start {}
+label#label_Remove_Crop {}
+label#label_Remove_First {}
+label#label_Remove_From {}
+label#label_Remove_Last {}
+label#label_Remove_Main {}
+label#label_Remove_To {}
+label#label_Replace_Main {}
+label#label_Replace_Search {}
+label#label_Replace_With {}
+label#label_Separator {}
+label#label_Status_Failed {}
+label#label_Status_Renamed {}
+label#label_Status_Rows {}
+label#label_Status_Selected {}
+spinbutton#spin_Add_Insert {}
+spinbutton#spin_File_Name_Max {}
+spinbutton#spin_File_Name_Min {}
+spinbutton#spin_Numbering_At {}
+spinbutton#spin_Numbering_Increment {}
+spinbutton#spin_Numbering_Padding {}
+spinbutton#spin_Numbering_Start {}
+spinbutton#spin_Remove_First {}
+spinbutton#spin_Remove_From {}
+spinbutton#spin_Remove_Last {}
+spinbutton#spin_Remove_To {}
+window#main_window {}
+treeview#treeview_Data_Grid {}
+scrolledwindow#scrollwindow_Data_Grid {}
+viewport#viewport_Data_Grid {}
+filechooserbutton#filechooser_Folder_Selecter {}

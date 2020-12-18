@@ -1,0 +1,7 @@
+[Nemo Action]
+Name=Linux File Rename Utility
+Quote=double
+Exec=python3 "/home/sadinga/Documents/PycharmProjects/Linux_File_Rename_Utility/linux_file_rename_utility.py" %F
+Selection=any
+Extensions=any
+Icon-Name=linux_file_rename_utility
