@@ -34,6 +34,7 @@ rename_pairs_from_file = {}  # Holds an imported dictionary of:  <original file 
 settings_file_to_load = ""   # The path to the default settings file.
 rename_pairs_file_to_load = ""  # The path to the rename pair file to import.
 konami_code = []  # Easter Egg to see if the Konami code has been entered in the About dialog.
+previous_selection = [[], 0, "", True]  # [ [list of selected rows], len(model), "default_folder_path", [Boolean = should it treeview_Data_Grid_selection_changed] ]
 
 
 class Main():
@@ -136,6 +137,10 @@ class Main():
         self.update_status_labels()
         # Apply custom user application settings
         self.apply_application_settings()
+        global previous_selection
+        selection = treeview_Data_Grid.get_selection()
+        model, items = selection.get_selected_rows()
+        previous_selection = [[], len(model), default_folder_path, True]  # Set the row count and path, This saves a full loop in treeview_Data_Grid_selection_changed later
 
     """ ************************************************************************************************************ """
     #  These are the various widget's signal handler functions:  UI elements other than buttons & dialogs
@@ -555,9 +560,9 @@ class Main():
         treeselection.unselect_all()
         # box 1
         combo_Name = self.builder.get_object("combo_Name")
+        combo_Name_Entry = self.builder.get_object("combo_Name_Entry")
         combo_Name.set_entry_text_column(0)
         combo_Name.set_active(0)
-        combo_Name_Entry = self.builder.get_object("combo_Name_Entry")
         entry_Name_Fixed = self.builder.get_object("entry_Name_Fixed")
         entry_Name_Fixed.set_text("")
         # box 2
@@ -593,6 +598,7 @@ class Main():
         entry_Add_Prefix = self.builder.get_object("entry_Add_Prefix")
         entry_Add_Prefix.set_text("")
         spin_Add_Insert = self.builder.get_object("spin_Add_Insert")
+        spin_Add_Insert.set_value(0)
         # box 6
         combo_Append_Folder_Name = self.builder.get_object("combo_Append_Folder_Name")
         combo_Append_Folder_Name_Entry = self.builder.get_object("combo_Append_Folder_Name_Entry")
@@ -696,7 +702,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.1")
+        about.set_version("Version 1.2")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -1438,30 +1444,62 @@ class Main():
         treeview_Data_Grid = self.builder.get_object("treeview_Data_Grid")
         selection = treeview_Data_Grid.get_selection()
         model, items = selection.get_selected_rows()
-        # Blank out the "New Name" and "Status" columns before processing selection, so the old values don't remain
-        for looper in range(len(model)):
-            model[looper][1] = ""  # Set the New Name to nothing
-            model[looper][5] = ""  # Set the Status to nothing
-        if items:
-            for item in items:  # items = selected rows
-                # Columns to file_Full format conversion
-                row_data = [model[item][6], model[item][7], model[item][2], model[item][8], model[item][0], model[item][1], model[item][3], model[item][4], model[item][9], model[item][5]]
-                # Set the new name value to the calculated new name for the individual row
-                model[item][1] = self.update_row_in_data_grid_with_new_name(row_data)
-                if model[item][0] != model[item][1]:
-                    model[item][5] = "To be changed"
-                else:
-                    model[item][5] = "No change..."
-        # print("changed, number of selected rows = " + str(len(items)) + "=" + str(treeselection_object.count_selected_rows()))
+        # This  part clears out just the "New Name" and "Status" columns for the previously selected rows to save on performance
+        global previous_selection
+        if previous_selection[3]:  # This means that clear_Data_Grid was NOT called, so we need to refresh values based on previous_selection
+            if previous_selection[2][-1:] == "/":
+                previous_selection[2] = previous_selection[2][:-1]
+            if default_folder_path[-1:] == "/":
+                temp_default_folder_path = default_folder_path[:-1]
+            else:
+                temp_default_folder_path = default_folder_path
+            if len(model) == previous_selection[1]:  # Do row totals match?
+                if previous_selection[2] == temp_default_folder_path:  # Do previous path matches the default path?
+                    for row in previous_selection[0]:
+                        model[row][1] = ""  # Set the New Name to nothing
+                        model[row][5] = ""  # Set the Status to nothing
+                else:  # previous path doesn't match the default path
+                    # This isn't needed since if the default path has changed the grid would be entirely new...
+                    pass
+            else:
+                # This isn't needed since if the row totals don't match, the grid would be entirely new from a box_9 change...
+                pass
+            # This part builds the "New Name" and "Status" columns of the currently selected rows
+            previous_selection[0].clear()  # Clear out current previously selected rows
+            if items:
+                for item in items:  # items = selected rows
+                    # Columns to file_Full format conversion
+                    row_data = [model[item][6], model[item][7], model[item][2], model[item][8], model[item][0], model[item][1], model[item][3], model[item][4], model[item][9], model[item][5]]
+                    # Set the new name value to the calculated new name for the individual row
+                    model[item][1] = self.update_row_in_data_grid_with_new_name(row_data)
+                    if model[item][0] != model[item][1]:
+                        model[item][5] = "To be changed"
+                    else:
+                        model[item][5] = "No change..."
+                    previous_selection[0].append(item[0])  # Append currently selected row to list
+            previous_selection[1] = len(model)  # Set the current number of rows
+            previous_selection[2] = default_folder_path  # Set the current default_folder_path
+        else:  # This means that clear_Data_Grid was called, so no need to refresh values
+            # Do nothing since previous_selection[3] == False
+            pass
         self.update_status_labels()
 
     def clear_Data_Grid(self):  # Clears out the data grid and global files lists
+        global previous_selection
+        previous_selection[3] = False  # Don't treeview_Data_Grid_selection_changed, this drastically helps with performance!
+        # treeview_Data_Grid = Select None
+        treeview_Data_Grid = self.builder.get_object("treeview_Data_Grid")
+        selection = treeview_Data_Grid.get_selection()
+        selection.unselect_all()
+        # Do the rest of the original clear_Data_Grid bits
         liststore_Data_Grid = self.builder.get_object("liststore_Data_Grid")
         liststore_Data_Grid.clear()
         global files
         global files_Full
         files.clear()
         files_Full.clear()
+        model, items = selection.get_selected_rows()
+        previous_selection = [[], len(model), default_folder_path, True]  # Do treeview_Data_Grid_selection_changed, using default values
 
     def load_Data_Grid(self):  # Loads data grid with files list
         # Reset the directory_counts dictionary
@@ -1957,7 +1995,6 @@ class Main():
         entry_Add_Prefix = self.builder.get_object("entry_Add_Prefix")
         entry_Add_Suffix = self.builder.get_object("entry_Add_Suffix")
         entry_Add_Insert = self.builder.get_object("entry_Add_Insert")
-        spin_Add_Insert = self.builder.get_object("spin_Add_Insert")
         box_Add = self.builder.get_object("box_Add")
         self.box_5 = False
         if entry_Add_Prefix.get_text() != "":
