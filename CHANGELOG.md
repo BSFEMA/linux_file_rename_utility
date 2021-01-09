@@ -1,3 +1,6 @@
+# v1.3
+* Bug:  When Folders=unchecked & Subfolders=checked in Box_9, the result was Subfolders were still being shown in data grid.  This has been corrected so that no Type=Folder records will be shown when Folders=unchecked. 
+
 # v1.2
 * Performance:  Increased the speed at which unselected rows "New Name" and "Status" columns are blanked out as well as selected rows "New Name" is modified by boxes 1-8.
 * Fixed:  The "combo_Name_Entry" line in "def button_Reset_clicked" moved up two lines to be in the correct position...

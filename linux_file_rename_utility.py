@@ -702,7 +702,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.2")
+        about.set_version("Version 1.3")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -2234,7 +2234,7 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
             part8 = False
         part9 = ''
         files_unsorted.append([part0,part1,part2,part3,part4,part5,part6,part7,part8,part9])
-    # At this point files_Full has been populated with _ALL_ files/Folders from default_folder_path
+    # At this point files_unsorted has been populated with _ALL_ files/Folders from default_folder_path
     # ==================================================================================================================
     # Now to go through that list and remove what doesn't match:
     # Box 9 = entry_Mask, checkbox_Folders, checkbox_Subfolders, checkbox_Files, checkbox_Hidden, spin_File_Name_Min, spin_File_Name_Max
@@ -2252,7 +2252,7 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
     if checkbox_Folders is False:
         files_temp = []
         for file in files_unsorted:
-            if file[3] == "File" or (file[3] == "Folder" and file[2] != "/"):
+            if file[3] == "File":
                 files_temp.append(file)
         files_unsorted = files_temp
     # checkbox_Subfolders = False
