@@ -568,6 +568,8 @@ class Main():
         # box 2
         entry_Replace_Search = self.builder.get_object("entry_Replace_Search")
         entry_Replace_Search.set_text("")
+        checkbox_Replace_Case = self.builder.get_object("checkbox_Replace_Case")
+        checkbox_Replace_Case.set_active(False)  # Default is unchecked (i.e. case inseneitive)
         entry_Replace_With = self.builder.get_object("entry_Replace_With")
         entry_Replace_With.set_text("")
         # box 3
@@ -702,7 +704,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.3")
+        about.set_version("Version 1.4")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -799,6 +801,8 @@ class Main():
             file.write("# box 2\n")
             entry_Replace_Search = self.builder.get_object("entry_Replace_Search")
             file.write("entry_Replace_Search=" + entry_Replace_Search.get_text() + "\n")
+            checkbox_Replace_Case = self.builder.get_object("checkbox_Replace_Case")
+            file.write("checkbox_Replace_Case=" + str(checkbox_Replace_Case.get_active()) + "\n")
             entry_Replace_With = self.builder.get_object("entry_Replace_With")
             file.write("entry_Replace_With=" + entry_Replace_With.get_text() + "\n")
             # box 3
@@ -913,6 +917,8 @@ class Main():
         file.write("# box 2\n")
         entry_Replace_Search = self.builder.get_object("entry_Replace_Search")
         file.write("entry_Replace_Search=" + entry_Replace_Search.get_text() + "\n")
+        checkbox_Replace_Case = self.builder.get_object("checkbox_Replace_Case")
+        file.write("checkbox_Replace_Case=" + str(checkbox_Replace_Case.get_active()) + "\n")
         entry_Replace_With = self.builder.get_object("entry_Replace_With")
         file.write("entry_Replace_With=" + entry_Replace_With.get_text() + "\n")
         # box 3
@@ -1125,6 +1131,12 @@ class Main():
             if setting[0] == "entry_Replace_Search" and setting[1] != "":
                 entry_Replace_Search = self.builder.get_object(setting[0])
                 entry_Replace_Search.set_text(setting[1])
+            if setting[0] == "checkbox_Replace_Case" and setting[1] == "True":
+                checkbox_Folders = self.builder.get_object(setting[0])
+                checkbox_Folders.set_active(True)
+            elif setting[0] == "checkbox_Replace_Case" and setting[1] == "False":
+                checkbox_Folders = self.builder.get_object(setting[0])
+                checkbox_Folders.set_active(False)
             if setting[0] == "entry_Replace_With" and setting[1] != "":
                 entry_Replace_With = self.builder.get_object(setting[0])
                 entry_Replace_With.set_text(setting[1])
@@ -1591,6 +1603,7 @@ class Main():
 
     def update_new_name_section_2(self, new_name, row_data):  # 2. Replace
         entry_Replace_Search = self.builder.get_object("entry_Replace_Search")
+        checkbox_Replace_Case = self.builder.get_object("checkbox_Replace_Case")
         entry_Replace_With = self.builder.get_object("entry_Replace_With")
         search_text = entry_Replace_Search.get_text()
         with_text = entry_Replace_With.get_text()
@@ -1602,11 +1615,17 @@ class Main():
             filename_part = ".".join(new_name.split(".")[:-1])
             extension_part = new_name.split(".")[-1]
             if search_text != "":
-                filename_part = str(filename_part).replace(search_text, with_text)
+                if checkbox_Replace_Case.get_active() == True:  # Case snesitive
+                    filename_part = str(filename_part).replace(search_text, with_text)
+                else:  # Case Insensitive
+                    filename_part = re.sub(re.escape(search_text), with_text, str(filename_part), flags=re.IGNORECASE)
                 new_name = str(filename_part) + "." + str(extension_part)
         else:  # Folders and Files with no extensions
             if search_text != "":
-                new_name = str(new_name).replace(search_text, with_text)
+                if checkbox_Replace_Case.get_active() == True:  # Case snesitive
+                    new_name = str(new_name).replace(search_text, with_text)
+                else:  # Case Insensitive
+                    new_name = re.sub(re.escape(search_text), with_text, str(new_name), flags=re.IGNORECASE)
         return new_name
 
     def update_new_name_section_3(self, new_name, row_data):  # 3. Case
@@ -2090,6 +2109,7 @@ class Main():
         entry_Name_Fixed = self.builder.get_object("entry_Name_Fixed")
         # box 2
         entry_Replace_Search = self.builder.get_object("entry_Replace_Search")
+        checkbox_Replace_Case = self.builder.get_object("checkbox_Replace_Case")
         entry_Replace_With = self.builder.get_object("entry_Replace_With")
         # box 3
         combo_Case = self.builder.get_object("combo_Case")

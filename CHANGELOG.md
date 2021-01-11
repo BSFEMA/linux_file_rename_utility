@@ -1,3 +1,7 @@
+# v1.4
+* Added:  Case sensitive option for searching in Box_2
+* Changed:  Two word labels were given a new line to make them 2 lines:  "Case Sensitive", "Per Folder", "Min. Len.", "Max. Len."
+
 # v1.3
 * Bug:  When Folders=unchecked & Subfolders=checked in Box_9, the result was Subfolders were still being shown in data grid.  This has been corrected so that no Type=Folder records will be shown when Folders=unchecked. 
 

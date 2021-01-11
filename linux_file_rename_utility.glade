@@ -563,6 +563,23 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkCheckButton" id="checkbox_Replace_Case">
+                        <property name="label" translatable="yes">Case
+Sensitive</property>
+                        <property name="name">checkbox_Replace_Case</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Should the search string by treated as case sensitive or not</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkLabel" id="label_Replace_With">
                         <property name="name">label_Replace_With</property>
                         <property name="visible">True</property>
@@ -572,7 +589,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">3</property>
+                        <property name="position">4</property>
                       </packing>
                     </child>
                     <child>
@@ -586,7 +603,7 @@
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="position">4</property>
+                        <property name="position">5</property>
                       </packing>
                     </child>
                   </object>
@@ -1199,7 +1216,8 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="checkbox_Numbering_Per_Folder">
-                        <property name="label" translatable="yes">Per Folder</property>
+                        <property name="label" translatable="yes">Per
+Folder</property>
                         <property name="name">checkbox_Numbering_Per_Folder</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -1417,7 +1435,8 @@ e.g. *.* | *.txt | *.mp3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Minimum file name length</property>
-                        <property name="label" translatable="yes">Min. Len.</property>
+                        <property name="label" translatable="yes">Min.
+Len.</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1447,7 +1466,8 @@ e.g. *.* | *.txt | *.mp3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">Maximum file name length</property>
-                        <property name="label" translatable="yes">Max. Len.</property>
+                        <property name="label" translatable="yes">Max.
+Len.</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
