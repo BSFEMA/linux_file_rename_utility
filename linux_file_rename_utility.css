@@ -52,6 +52,7 @@ button#button_Rename {}
 button#button_Reset {}
 button#button_Save_Settings {}
 button#button_SaveAs_Settings {}
+checkbox#checkbox_Replace_Case{}
 checkbox#checkbox_Files {}
 checkbox#checkbox_Folders {}
 checkbox#checkbox_Hidden {}
@@ -128,5 +129,4 @@ spinbutton#spin_Remove_To {}
 window#main_window {}
 treeview#treeview_Data_Grid {}
 scrolledwindow#scrollwindow_Data_Grid {}
-viewport#viewport_Data_Grid {}
 filechooserbutton#filechooser_Folder_Selecter {}

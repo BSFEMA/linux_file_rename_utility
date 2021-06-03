@@ -48,6 +48,8 @@ class Main():
         window.connect("delete-event", gtk.main_quit)
         window.set_title('Linux File Rename Utility')
         window.set_default_icon_from_file(os.path.join(sys.path[0], "linux_file_rename_utility.svg"))  # Setting the "default" icon makes it usable in the about dialog. (This will take .ico, .png, and .svg images.)
+        # Set the default data grid height (400)
+        self.set_scrollwindow_Data_Grid_height(400)  # "400" is the default value
         window.show()
         # Initialize "Box (1-8)" booleans to False, this is to tell if they are modified later. This needs to happen here before any of the Box options are called/modified
         self.box_1 = False
@@ -117,8 +119,6 @@ class Main():
                             )
         self.load_Data_Grid()
         self.resize_column_widths()
-        # Set the default data grid height (400)
-        self.set_scrollwindow_Data_Grid_height(400)  # "400" is the default value
         # Setup the Status Labels
         box_Status = self.builder.get_object("box_Status")
         box_Status.get_style_context().add_class('grey-border')
@@ -688,15 +688,23 @@ class Main():
             self.rename_files()
             # Update the Status column with the status (file rename success) from rename_files()
             if items:
-                for item in items:
-                    # Loop through all of the rename_pairs matching Full Path to then get Status
-                    for loop in range(len(rename_pairs)):
-                        if rename_pairs[loop][3] == model[item][6]:  # If the rename_pairs[Full_Path] == model[item][Full_Path]
-                            model[item][5] = rename_pairs[loop][2]  # Update Status to the rename_pairs[Status]
-                            if model[item][5] == "Renamed!":
-                                model[item][0] = rename_pairs[loop][1]  # Update Current Name to the  rename_pairs[New Name]
-                                model[item][6] = update_full_path_with_new_name(model[item][6], model[item][0], model[item][8])  # Update Full Path to the new full path with the updated  rename_pairs[New Name]
-                                model[item][7] = update_local_path_with_new_value(model[item][6], model[item][0], model[item][8])  # Update Local Path
+                # This isn't the best implementation, but it is much improved!
+                # 3000 records used to take [94.98 seconds], but it now takes [0.5 seconds]
+                # Make a dictionary from rename_pairs
+                pair = {}  # original name  = [new name, status, full path (with the new name)]
+                for loop in range(len(rename_pairs)):
+                    pair[rename_pairs[loop][0]] = [rename_pairs[loop][1], rename_pairs[loop][2], rename_pairs[loop][3]]
+                # Loop through all of the items (i.e. selected rows in data grid) matching Full Path to then get Status
+                for item in range(len(items)):
+                    # items[item].get_indices() = This is the current row in model[] that is selected and we are looping over
+                    # If data grid rows [1,3,8] are selected, then the indicies will be [0,2,7], so model[0]=row 1 & model[7]=row 8
+                    if model[items[item].get_indices()][0] in pair:  # If the file in question is in the pair dict, then work on it, else do nothing as it wasn't renamed
+                        if model[items[item].get_indices()][6] == pair[model[items[item].get_indices()][0]][2]:  # If the model[][Full_Path] == rename_pairs[Full_Path] (meaning this file was renamed)
+                            model[items[item].get_indices()][5] = pair[model[items[item].get_indices()][0]][1]  # Update the model[][Status] to the rename_pairs[Status]
+                            if model[items[item].get_indices()][5] == "Renamed!":
+                                model[items[item].get_indices()][0] = pair[model[items[item].get_indices()][0]][0]  # Update model[][Current Name] to the  rename_pairs[New Name]
+                                model[items[item].get_indices()][6] = update_full_path_with_new_name(model[items[item].get_indices()][6], model[items[item].get_indices()][0], model[items[item].get_indices()][8])  # Update Full Path to the new full path with the updated  rename_pairs[New Name]
+                                model[items[item].get_indices()][7] = update_local_path_with_new_value(model[items[item].get_indices()][6], model[items[item].get_indices()][0],model[items[item].get_indices()][8])  # Update Local Path
             self.save_history()
         self.update_status_labels()
 
@@ -704,7 +712,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.4")
+        about.set_version("Version 1.5")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
