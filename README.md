@@ -45,7 +45,10 @@ Download the individual files directly.  Create a folder to store the files, nav
     wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/BSFEMA/linux_file_rename_utility/master/LICENSE
 
 # Command Line Parameters
-There is just 1:  It is the folder path that will be used to start renaming files from.  If this value isn't provided, then the starting path will be where this application file is located.  The intention is that you can call this application from a context menu from a file browser (e.g. Nemo) and it would automatically load up that folder.  If you pass it a path to a file, it will use the folder that the file resides in instead.
+* If the first parameter is a valid folder path, then that will be used to start renaming files from.  If this value isn't provided, then the starting path will be where this application file is located.  The intention is that you can call this application from a context menu from a file browser (e.g. Nemo) and it would automatically load up that folder.
+* If the first parameter is a valid file path, it will use the folder that the file resides in instead.
+* If you pass it a list of files (e.g. 'file:///home/user_name/file1.txt', 'file:///home/user_name/file2.txt'), it will use the folder that the first file resides in instead.  It will then auto-select all the files that exist in that folder.  The intention is that you can use Linux File Rename Utility as the "Bulk Rename" utility in Nemo.
+* If no parameter is passed, then it will use the folder where the "linux_file_rename_utility.py" file is located.
 
 # Folders
 This application will create a "~/.config/BSFEMA/" folder and a "~/.local/share/BSFEMA/" folder if they don't exist.
@@ -135,7 +138,6 @@ Note:  If there are multiple resulting file names for a given file name, it will
 If you copy the "linux_file_rename_utility.svg" to "~.local/share/icons", then it should be picked up by the system and can be used as any other icon.
 
 # Nemo Action context menu
-
 You can create a nemo action file so that you can right click in a folder and launch the Linux File Rename Utility from there.
 
 Example (filename = "linux_file_rename_utility.nemo_action"):
@@ -153,6 +155,11 @@ Save the "linux_file_rename_utility.nemo_action" file to "~/.local/share/nemo/ac
 Note:  The "Icon-Name" line references the "linux_file_rename_utility" name.  Please see the "Icon File" section above for more information on this.
 
 Context menus might be possible for other file managers, but that will be up to you to figure out ;) 
+
+# Nemo 'Bulk Rename' setting
+Instead of 'Bulky', you can use the Linux File Rename Utility.  This is so that you can select files in Nemo, press [F2] on the keyboard, the Linux File Rename Utility will launch to the folder where those files are located and auto-select those files in the data grid.
+
+To enable this, launch Nemo, click on Edit in the menu, select Preferences, click on the Behavior tab, find the 'Bulk Rename' section (at the bottom of the menu), set the command line to something like:  **python3 "<FULL_PATH_TO>/linux_file_rename_utility.py"**  e.g. (python3 "/home/user_name/bin/linux_file_rename_utility.py")     
 
 # CSS
 Each UI object (e.g. button, label, etc.) has a name and can therefore have its own unique css applied to it.

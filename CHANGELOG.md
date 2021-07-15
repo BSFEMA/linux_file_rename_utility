@@ -1,3 +1,7 @@
+# v1.6
+* Added:  I expanded the command line parameters to accept a list of files that will be automatically selected.  It will set the default_folder_path to the path of the first file/folder parameter's location.  This is so that the Linux File Rename Utility can be a better alternative for "Bulky" if you want to use the [F2] functionality in Nemo.  I also updated the README.md file with updates to the "Command Line Parameters" section and added a new "Nemo 'Bulk Rename' setting" section.
+* Fixed:  Misc whitespace, typos in comments, and other code inspection stuff.
+
 # v1.5
 * Performance:  I dramatically increased the speed at which the data grid is updated after the file renaming takes place.  Updating 3000 records in the data grid after the renaming used to take [94.98 seconds], but it now takes [0.5 seconds].
 * Fixed:  I forgot to add the "checkbox#checkbox_Replace_Case{}" line in the .css file when I added that feature.

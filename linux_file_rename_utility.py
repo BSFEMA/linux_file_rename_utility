@@ -35,6 +35,7 @@ settings_file_to_load = ""   # The path to the default settings file.
 rename_pairs_file_to_load = ""  # The path to the rename pair file to import.
 konami_code = []  # Easter Egg to see if the Konami code has been entered in the About dialog.
 previous_selection = [[], 0, "", True]  # [ [list of selected rows], len(model), "default_folder_path", [Boolean = should it treeview_Data_Grid_selection_changed] ]
+parameter_files = []  # Holds the file(s) locations passed in via the command line.  To be auto selected.
 
 
 class Main():
@@ -72,7 +73,7 @@ class Main():
         entry_Folder_path.set_text(default_folder_path)
         # Set spinner direction default to "HORIZONTAL"
         self.set_spinner_orientation("HORIZONTAL")  # "HORIZONTAL" is the default (for smaller screens)
-        # Set verious objects to their defaults:
+        # Set various objects to their defaults:
         # Set combo_Extension to default value (1st entry)
         combo_Extension = self.builder.get_object("combo_Extension")
         combo_Extension.set_entry_text_column(0)
@@ -138,6 +139,9 @@ class Main():
         # Apply custom user application settings
         self.apply_application_settings()
         global previous_selection
+        global parameter_files
+        if len(parameter_files) > 0:  # If there are files passed from the command line, have them selected in the data grid
+            self.apply_parameter_files_to_selection()
         selection = treeview_Data_Grid.get_selection()
         model, items = selection.get_selected_rows()
         previous_selection = [[], len(model), default_folder_path, True]  # Set the row count and path, This saves a full loop in treeview_Data_Grid_selection_changed later
@@ -284,11 +288,29 @@ class Main():
         # This doesn't really have any 'action' at the moment, as it's just a setting to be toggled
         pass
 
+    def apply_parameter_files_to_selection(self):  # Set the commandline parameter files as selected rows
+        # model[item][6] = Full_Path
+        # model[item][8] = Type
+        treeview_Data_Grid = self.builder.get_object("treeview_Data_Grid")
+        treeselection = treeview_Data_Grid.get_selection()
+        model, items = treeselection.get_selected_rows()
+        if len(model) > 0:
+            for loop in range(len(model)):  # Loop through all rows in the data grid
+                if model[loop][8] == "Folder":
+                    if model[loop][6][-1:] == "/":  # If there is a trailing "/" in the folder path (should be there...)
+                        if model[loop][6][:-1] in parameter_files:
+                            treeselection.select_path(loop)
+                    else:
+                        if model[loop][6] in parameter_files:
+                            treeselection.select_path(loop)
+                else:  # File
+                    if model[loop][6] in parameter_files:
+                        treeselection.select_path(loop)
+
     def treeview_Data_Grid_select_all(self, event):
         treeview_Data_Grid = self.builder.get_object("treeview_Data_Grid")
         treeselection = treeview_Data_Grid.get_selection()
         treeselection.select_all()
-
 
     def treeview_Data_Grid_select_none(self, event):
         treeview_Data_Grid = self.builder.get_object("treeview_Data_Grid")
@@ -416,7 +438,7 @@ class Main():
             menu.append(file_hidden)
             menu.popup(None, None, None, None, event.button, event.time)
 
-    def set_spinner_orientation(self, direction):  # set the direction of all spinner widgets to Horizontal or Tertical
+    def set_spinner_orientation(self, direction):  # set the direction of all spinner widgets to Horizontal or Vertical
         spin_Remove_First = self.builder.get_object("spin_Remove_First")
         spin_Remove_Last = self.builder.get_object("spin_Remove_Last")
         spin_Remove_From = self.builder.get_object("spin_Remove_From")
@@ -569,7 +591,7 @@ class Main():
         entry_Replace_Search = self.builder.get_object("entry_Replace_Search")
         entry_Replace_Search.set_text("")
         checkbox_Replace_Case = self.builder.get_object("checkbox_Replace_Case")
-        checkbox_Replace_Case.set_active(False)  # Default is unchecked (i.e. case inseneitive)
+        checkbox_Replace_Case.set_active(False)  # Default is unchecked (i.e. case insensitive)
         entry_Replace_With = self.builder.get_object("entry_Replace_With")
         entry_Replace_With.set_text("")
         # box 3
@@ -697,14 +719,14 @@ class Main():
                 # Loop through all of the items (i.e. selected rows in data grid) matching Full Path to then get Status
                 for item in range(len(items)):
                     # items[item].get_indices() = This is the current row in model[] that is selected and we are looping over
-                    # If data grid rows [1,3,8] are selected, then the indicies will be [0,2,7], so model[0]=row 1 & model[7]=row 8
+                    # If data grid rows [1,3,8] are selected, then the indices will be [0,2,7], so model[0]=row 1 & model[7]=row 8
                     if model[items[item].get_indices()][0] in pair:  # If the file in question is in the pair dict, then work on it, else do nothing as it wasn't renamed
                         if model[items[item].get_indices()][6] == pair[model[items[item].get_indices()][0]][2]:  # If the model[][Full_Path] == rename_pairs[Full_Path] (meaning this file was renamed)
                             model[items[item].get_indices()][5] = pair[model[items[item].get_indices()][0]][1]  # Update the model[][Status] to the rename_pairs[Status]
                             if model[items[item].get_indices()][5] == "Renamed!":
                                 model[items[item].get_indices()][0] = pair[model[items[item].get_indices()][0]][0]  # Update model[][Current Name] to the  rename_pairs[New Name]
                                 model[items[item].get_indices()][6] = update_full_path_with_new_name(model[items[item].get_indices()][6], model[items[item].get_indices()][0], model[items[item].get_indices()][8])  # Update Full Path to the new full path with the updated  rename_pairs[New Name]
-                                model[items[item].get_indices()][7] = update_local_path_with_new_value(model[items[item].get_indices()][6], model[items[item].get_indices()][0],model[items[item].get_indices()][8])  # Update Local Path
+                                model[items[item].get_indices()][7] = update_local_path_with_new_value(model[items[item].get_indices()][6], model[items[item].get_indices()][0], model[items[item].get_indices()][8])  # Update Local Path
             self.save_history()
         self.update_status_labels()
 
@@ -712,7 +734,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.5")
+        about.set_version("Version 1.6")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -1126,7 +1148,7 @@ class Main():
                     # combo_Name.set_entry_text_column(1)
                     combo_Name.set_active(1)
                 elif setting[1] == "Fixed":
-                    #combo_Name.set_entry_text_column(2)
+                    # combo_Name.set_entry_text_column(2)
                     combo_Name.set_active(2)
                 else:  # Default
                     # combo_Name.set_entry_text_column(0)
@@ -1135,7 +1157,7 @@ class Main():
                 entry_Name_Fixed = self.builder.get_object(setting[0])
                 if entry_Name_Fixed.get_editable():
                     entry_Name_Fixed.set_text(setting[1])
-           # Box_2
+            # Box_2
             if setting[0] == "entry_Replace_Search" and setting[1] != "":
                 entry_Replace_Search = self.builder.get_object(setting[0])
                 entry_Replace_Search.set_text(setting[1])
@@ -1541,7 +1563,7 @@ class Main():
         # Build files from files_Full
         for file in files_Full:
             # files.append([current, new, sub dir, size, modified, status, full_path, local_path, type, hidden])
-            files.append([file[4],file[5],file[2],file[6],file[7],file[9],file[0],file[1],file[3],str(file[8])])
+            files.append([file[4], file[5], file[2], file[6], file[7], file[9], file[0], file[1], file[3], str(file[8])])
         # Build data grid from files
         for file in files:
             liststore_Data_Grid.append(file)
@@ -1551,7 +1573,7 @@ class Main():
                 if file[2] not in directory_counts:
                     directory_counts[file[2]] = 0
 
-    def update_row_in_data_grid_with_new_name(self, row_data):  #  The main process by which box_1-8 are applied to the current name
+    def update_row_in_data_grid_with_new_name(self, row_data):  # The main process by which box_1-8 are applied to the current name
         # row_data[0] = full path to file/folder
         # row_data[1] = local path to file/folder
         # row_data[2] = sub directory path
@@ -1600,7 +1622,7 @@ class Main():
             extension_part = new_name.split(".")[-1]
             if combo_Name_Entry.get_text() == "Remove":
                 filename_part = ""
-            elif  combo_Name_Entry.get_text() == "Fixed":
+            elif combo_Name_Entry.get_text() == "Fixed":
                 filename_part = entry_Name_Fixed.get_text()
             new_name = str(filename_part) + "." + str(extension_part)
         else:  # File with no extension
@@ -1623,14 +1645,14 @@ class Main():
             filename_part = ".".join(new_name.split(".")[:-1])
             extension_part = new_name.split(".")[-1]
             if search_text != "":
-                if checkbox_Replace_Case.get_active() == True:  # Case snesitive
+                if checkbox_Replace_Case.get_active() == True:  # Case sensitive
                     filename_part = str(filename_part).replace(search_text, with_text)
                 else:  # Case Insensitive
                     filename_part = re.sub(re.escape(search_text), with_text, str(filename_part), flags=re.IGNORECASE)
                 new_name = str(filename_part) + "." + str(extension_part)
         else:  # Folders and Files with no extensions
             if search_text != "":
-                if checkbox_Replace_Case.get_active() == True:  # Case snesitive
+                if checkbox_Replace_Case.get_active() == True:  # Case sensitive
                     new_name = str(new_name).replace(search_text, with_text)
                 else:  # Case Insensitive
                     new_name = re.sub(re.escape(search_text), with_text, str(new_name), flags=re.IGNORECASE)
@@ -1784,7 +1806,7 @@ class Main():
                     new_name = Add_Insert + new_name
                 else:
                     new_name = new_name[:(Add_Insert_At - 1)] + Add_Insert + new_name[(Add_Insert_At - 1):]
-            elif  len(Add_Insert) > 0 and Add_Insert_At < 0:
+            elif len(Add_Insert) > 0 and Add_Insert_At < 0:
                 new_name = new_name[:(Add_Insert_At)] + Add_Insert + new_name[(Add_Insert_At):]
         return new_name
 
@@ -1858,7 +1880,7 @@ class Main():
                         if Numbering_At <= len(filename_part):
                             padded_number = return_padded_number_for_per_folder_option(row_data[2], Numbering_Start, Numbering_Increment, Numbering_Padding)
                             filename_part = filename_part[:Numbering_At] + Numbering_Separator + padded_number + Numbering_Separator + filename_part[Numbering_At:]
-                        elif  Numbering_At > len(filename_part):  # Same as Suffix
+                        elif Numbering_At > len(filename_part):  # Same as Suffix
                             padded_number = return_padded_number_for_per_folder_option(row_data[2], Numbering_Start, Numbering_Increment, Numbering_Padding)
                             filename_part = filename_part + Numbering_Separator + padded_number
                     else:  # Same as prefix
@@ -1877,7 +1899,7 @@ class Main():
                         if Numbering_At <= len(new_name):
                             padded_number = return_padded_number_for_per_folder_option(row_data[2], Numbering_Start, Numbering_Increment, Numbering_Padding)
                             new_name = new_name[:Numbering_At] + Numbering_Separator + padded_number + Numbering_Separator + new_name[Numbering_At:]
-                        elif  Numbering_At > len(new_name):  # Same as Suffix
+                        elif Numbering_At > len(new_name):  # Same as Suffix
                             padded_number = return_padded_number_for_per_folder_option(row_data[2], Numbering_Start, Numbering_Increment, Numbering_Padding)
                             new_name = new_name + Numbering_Separator + padded_number
                     else:  # Same as Prefix
@@ -1903,7 +1925,7 @@ class Main():
                     if Numbering_At > 0:  # Otherwise it would be a Prefix
                         if Numbering_At <= len(filename_part):
                             filename_part = filename_part[:Numbering_At] + Numbering_Separator + padded_number + Numbering_Separator + filename_part[Numbering_At:]
-                        elif  Numbering_At > len(filename_part):  # Same as Suffix
+                        elif Numbering_At > len(filename_part):  # Same as Suffix
                             filename_part = filename_part + Numbering_Separator + padded_number
                 new_name = str(filename_part) + "." + str(extension_part)
             else:  # Folders and Files with no extensions
@@ -1915,7 +1937,7 @@ class Main():
                     if Numbering_At > 0:  # Otherwise it would be a Prefix
                         if Numbering_At <= len(new_name):
                             new_name = new_name[:Numbering_At] + Numbering_Separator + padded_number + Numbering_Separator + new_name[Numbering_At:]
-                        elif  Numbering_At > len(new_name):  # Same as Suffix
+                        elif Numbering_At > len(new_name):  # Same as Suffix
                             new_name = new_name + Numbering_Separator + padded_number
         return new_name
 
@@ -2261,7 +2283,7 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
         else:
             part8 = False
         part9 = ''
-        files_unsorted.append([part0,part1,part2,part3,part4,part5,part6,part7,part8,part9])
+        files_unsorted.append([part0, part1, part2, part3, part4, part5, part6, part7, part8, part9])
     # At this point files_unsorted has been populated with _ALL_ files/Folders from default_folder_path
     # ==================================================================================================================
     # Now to go through that list and remove what doesn't match:
@@ -2435,7 +2457,7 @@ def read_in_application_settings():  # Read in the user's custom application set
                     line = line.replace('\n', '')
                     if len(line.split("=")) > 1:  # Make sure there is a "=" in the line
                         if len(line.split("=")) == 2:  # Set normal value
-                            application_Settings.append([line.split("=")[0],line.split("=")[1]])
+                            application_Settings.append([line.split("=")[0], line.split("=")[1]])
                         elif len(line.split("=")) > 2:  # Set value that also contains a "=" character
                             application_Settings.append([line.split("=")[0], "=".join(line.split("=")[1:])])
                     else:
@@ -2500,12 +2522,20 @@ def update_full_path_with_new_name(current_full_path, new_name, file_type):  # U
     return temp_full_path
 
 
-def update_local_path_with_new_value(current_full_path, current_name, file_type):  # Update Local Pathto the new local path with the updated rename_pairs[New Name]
+def update_local_path_with_new_value(current_full_path, current_name, file_type):  # Update Local Path to the new local path with the updated rename_pairs[New Name]
     global default_folder_path
     if default_folder_path[-1:] != "/":  # remove the final "/" from a path
         temp_default_folder_path = default_folder_path + "/"
     local_path = current_full_path[len(temp_default_folder_path):]
     return local_path
+
+
+def update_parameter_files_at_start(command_line_parameters):  # Fix and Validate the command lind parameter files list and add to parameter_files
+    global parameter_files
+    for param in command_line_parameters:
+        temp_file_address = param.replace("\'", "").replace("file://", "")
+        if os.path.exists(temp_file_address):
+            parameter_files.append(temp_file_address)
 
 
 if __name__ == '__main__':
@@ -2516,9 +2546,16 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:  # If there is a command line argument, check if it is a folder
         if os.path.isdir(sys.argv[1]):  # Valid folder:  so set the default_folder_path to it
             default_folder_path = sys.argv[1]
-        elif os.path.isdir(os.path.dirname(os.path.abspath(sys.argv[1]))):  # If file path was sent:  use folder path from it.
+        elif os.path.isdir(os.path.dirname(os.path.abspath(sys.argv[1]))):  # If valid file path was sent:  use folder path from it.
             default_folder_path = os.path.dirname(os.path.abspath(sys.argv[1]))
-        else:  # Invalid folder:  so set the default_folder_path to where the python file is
+        elif "file://" in sys.argv[1]:  # In case using 'Bulk Rename' option in Nemo, get file path from first parameter and auto-select the files.
+            first_file_address = sys.argv[1].replace("\'", "").replace("file://", "")
+            if os.path.isdir(os.path.dirname(os.path.abspath(first_file_address))):  # If the first file is a valid path:  use folder path from it.
+                default_folder_path = os.path.dirname(os.path.abspath(first_file_address))
+                update_parameter_files_at_start(sys.argv[1:])
+            else:  # Invalid first file path:  so set the default_folder_path to where the python file is
+                default_folder_path = sys.path[0]
+        else:  # Invalid file/folder paths:  so set the default_folder_path to where the python file is
             default_folder_path = sys.path[0]
     else:  # No command line argument:  so set the default_folder_path to where the python file is
         default_folder_path = sys.path[0]
