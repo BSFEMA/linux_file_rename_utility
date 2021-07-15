@@ -154,7 +154,21 @@ Save the "linux_file_rename_utility.nemo_action" file to "~/.local/share/nemo/ac
 
 Note:  The "Icon-Name" line references the "linux_file_rename_utility" name.  Please see the "Icon File" section above for more information on this.
 
-Context menus might be possible for other file managers, but that will be up to you to figure out ;) 
+Context menus might be possible for other file managers, but that will be up to you to figure out ;)
+
+With the introduction of v1.7 (supporting command line arguments of a list of files), you can actually have another version of the Nemo action that is for auto-selecting files.
+
+Example (filename = "linux_file_rename_utility_selected.nemo_action"):
+
+    [Nemo Action]
+    Name=Linux File Rename Utility (Selected)
+    Quote=double
+    Exec=python3 "<YOUR_PATH_TO>/linux_file_rename_utility.py" %U
+    Selection=any
+    Extensions=any
+    Icon-Name=linux_file_rename_utility
+
+Changing the '%F' to '%U' allows for files selected in Nemo to be auto-selected in the data grid at launch.
 
 # Nemo 'Bulk Rename' setting
 Instead of 'Bulky', you can use the Linux File Rename Utility.  This is so that you can select files in Nemo, press [F2] on the keyboard, the Linux File Rename Utility will launch to the folder where those files are located and then auto-select those files in the data grid.
