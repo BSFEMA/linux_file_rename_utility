@@ -734,7 +734,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.6")
+        about.set_version("Version 1.7")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -2533,7 +2533,9 @@ def update_local_path_with_new_value(current_full_path, current_name, file_type)
 def update_parameter_files_at_start(command_line_parameters):  # Fix and Validate the command lind parameter files list and add to parameter_files
     global parameter_files
     for param in command_line_parameters:
-        temp_file_address = param.replace("\'", "").replace("file://", "")
+        # Note:  I don't want to import urllib just to be able to use "urllib.parse.unquote()", so I'm just going to use .replace("%20", " ") for the time being.
+        # The main reason is that including urllib is that the implication is that I would be doing web calls with it and a file renamed doesn't need to make web calls...
+        temp_file_address = param.replace("\'", "").replace("file://", "").replace("%20", " ")
         if os.path.exists(temp_file_address):
             parameter_files.append(temp_file_address)
 
@@ -2549,7 +2551,7 @@ if __name__ == '__main__':
         elif os.path.isdir(os.path.dirname(os.path.abspath(sys.argv[1]))):  # If valid file path was sent:  use folder path from it.
             default_folder_path = os.path.dirname(os.path.abspath(sys.argv[1]))
         elif "file://" in sys.argv[1]:  # In case using 'Bulk Rename' option in Nemo, get file path from first parameter and auto-select the files.
-            first_file_address = sys.argv[1].replace("\'", "").replace("file://", "")
+            first_file_address = sys.argv[1].replace("\'", "").replace("file://", "").replace("%20", " ")
             if os.path.isdir(os.path.dirname(os.path.abspath(first_file_address))):  # If the first file is a valid path:  use folder path from it.
                 default_folder_path = os.path.dirname(os.path.abspath(first_file_address))
                 update_parameter_files_at_start(sys.argv[1:])

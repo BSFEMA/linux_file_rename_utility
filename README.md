@@ -157,7 +157,7 @@ Note:  The "Icon-Name" line references the "linux_file_rename_utility" name.  Pl
 Context menus might be possible for other file managers, but that will be up to you to figure out ;) 
 
 # Nemo 'Bulk Rename' setting
-Instead of 'Bulky', you can use the Linux File Rename Utility.  This is so that you can select files in Nemo, press [F2] on the keyboard, the Linux File Rename Utility will launch to the folder where those files are located and auto-select those files in the data grid.
+Instead of 'Bulky', you can use the Linux File Rename Utility.  This is so that you can select files in Nemo, press [F2] on the keyboard, the Linux File Rename Utility will launch to the folder where those files are located and then auto-select those files in the data grid.
 
 To enable this, launch Nemo, click on Edit in the menu, select Preferences, click on the Behavior tab, find the 'Bulk Rename' section (at the bottom of the menu), set the command line to something like:  **python3 "<FULL_PATH_TO>/linux_file_rename_utility.py"**  e.g. (python3 "/home/user_name/bin/linux_file_rename_utility.py")     
 

@@ -1,3 +1,6 @@
+# v1.7
+* Fixed:  Nemo apparently sends URLified paths (i.e. %U).  I'm just converting the '%20' to spaces at the moment.  If this becomes a bigger issue down the road, I may import urllib.  
+
 # v1.6
 * Added:  I expanded the command line parameters to accept a list of files that will be automatically selected.  It will set the default_folder_path to the path of the first file/folder parameter's location.  This is so that the Linux File Rename Utility can be a better alternative for "Bulky" if you want to use the [F2] functionality in Nemo.  I also updated the README.md file with updates to the "Command Line Parameters" section and added a new "Nemo 'Bulk Rename' setting" section.
 * Fixed:  Misc whitespace, typos in comments, and other code inspection stuff.
