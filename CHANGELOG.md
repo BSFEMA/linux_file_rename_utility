@@ -1,3 +1,8 @@
+# v1.8
+* Fixed:  I updated the un-URLifying paths to support all percent-encodings and re-arranged the logic to better support this.
+* Fixed:  Updated the 'Command Line Parameters' section of the header comments to reflect the current behavior.
+* Fixed:  I added the shebang line (i.e. #!/usr/bin/python3) back that I accidentally removed before releasing v1.0.
+
 # v1.7
 * Fixed:  Nemo apparently sends URLified paths (i.e. %U).  I'm just converting the '%20' to spaces at the moment.  If this becomes a bigger issue down the road, I may import urllib.  
 

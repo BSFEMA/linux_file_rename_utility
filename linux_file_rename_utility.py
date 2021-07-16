@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+
 """
 Application:  Linux File Rename Utility
 Author:  BSFEMA
@@ -5,11 +8,10 @@ Note:  I would appreciate it if you kept my attribution as the original author i
 Purpose:  To provide Linux with a good file rename utility.
           I didn't particularly like any of the existing rename utilities available on Linux and I didn't like having to run a Windows one in Wine either...
           This was also a good excuse to learn Gtk and Glade programming with Python.
-Command Line Parameters:  There is just 1:
-                          It is the folder path that will be used to start renaming files from.
-                          If this value isn't provided, then the starting path will be where this application file is located.
-                          The intention is that you can call this application from a context menu from a file browser (e.g. Nemo) and it would automatically load up that folder.
-                          If you pass it a path to a file, it will use the folder that the file resides in instead.
+Command Line Parameters:  If the first parameter is a valid folder path, then that will be used to start renaming files from. If this value isn't provided, then the starting path will be where this application file is located. The intention is that you can call this application from a context menu from a file browser (e.g. Nemo) and it would automatically load up that folder.
+                          If the first parameter is a valid file path, it will use the folder that the file resides in instead.
+                          If you pass it a list of files (e.g. 'file:///home/user_name/file1.txt' 'file:///home/user_name/file2.txt'), it will use the folder that the first file resides in instead. It will then auto-select all the files that exist in that folder. The intention is that you can use Linux File Rename Utility as the "Bulk Rename" utility in Nemo.
+                          If no parameter is passed, then it will use the folder where the "linux_file_rename_utility.py" file is located.
 """
 
 
@@ -734,7 +736,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.7")
+        about.set_version("Version 1.8")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -2533,11 +2535,46 @@ def update_local_path_with_new_value(current_full_path, current_name, file_type)
 def update_parameter_files_at_start(command_line_parameters):  # Fix and Validate the command lind parameter files list and add to parameter_files
     global parameter_files
     for param in command_line_parameters:
-        # Note:  I don't want to import urllib just to be able to use "urllib.parse.unquote()", so I'm just going to use .replace("%20", " ") for the time being.
-        # The main reason is that including urllib is that the implication is that I would be doing web calls with it and a file renamed doesn't need to make web calls...
-        temp_file_address = param.replace("\'", "").replace("file://", "").replace("%20", " ")
+        # Remove the 'file://' part to get a valid 'path'
+        temp_file_address = param.replace("file://", "")
+        # Replace all percent-encoding with actual characters
+        temp_file_address = temp_file_address.replace("%20", " ")
+        temp_file_address = temp_file_address.replace("%21", "!")
+        temp_file_address = temp_file_address.replace("%22", "\"")
+        temp_file_address = temp_file_address.replace("%23", "#")
+        temp_file_address = temp_file_address.replace("%24", "$")
+        temp_file_address = temp_file_address.replace("%25", "%")
+        temp_file_address = temp_file_address.replace("%26", "&")
+        temp_file_address = temp_file_address.replace("%27", "\'")
+        temp_file_address = temp_file_address.replace("%28", "(")
+        temp_file_address = temp_file_address.replace("%29", ")")
+        temp_file_address = temp_file_address.replace("%2A", "*")
+        temp_file_address = temp_file_address.replace("%2B", "+")
+        temp_file_address = temp_file_address.replace("%2C", ",")
+        temp_file_address = temp_file_address.replace("%2D", "-")
+        temp_file_address = temp_file_address.replace("%2E", ".")
+        temp_file_address = temp_file_address.replace("%2F", "/")
+        temp_file_address = temp_file_address.replace("%3A", ":")
+        temp_file_address = temp_file_address.replace("%3B", ";")
+        temp_file_address = temp_file_address.replace("%3C", "<")
+        temp_file_address = temp_file_address.replace("%3D", "=")
+        temp_file_address = temp_file_address.replace("%3E", ">")
+        temp_file_address = temp_file_address.replace("%3F", "?")
+        temp_file_address = temp_file_address.replace("%40", "@")
+        temp_file_address = temp_file_address.replace("%5B", "[")
+        temp_file_address = temp_file_address.replace("%5C", "\\")
+        temp_file_address = temp_file_address.replace("%5D", "]")
+        temp_file_address = temp_file_address.replace("%5E", "^")
+        temp_file_address = temp_file_address.replace("%5F", "_")
+        temp_file_address = temp_file_address.replace("%60", "`")
+        temp_file_address = temp_file_address.replace("%7B", "{")
+        temp_file_address = temp_file_address.replace("%7C", "|")
+        temp_file_address = temp_file_address.replace("%7D", "}")
+        temp_file_address = temp_file_address.replace("%7E", "~")
         if os.path.exists(temp_file_address):
             parameter_files.append(temp_file_address)
+        else:
+            print("There was a problem adding the following path from the command line parameters:  " + str(temp_file_address))
 
 
 if __name__ == '__main__':
@@ -2551,10 +2588,9 @@ if __name__ == '__main__':
         elif os.path.isdir(os.path.dirname(os.path.abspath(sys.argv[1]))):  # If valid file path was sent:  use folder path from it.
             default_folder_path = os.path.dirname(os.path.abspath(sys.argv[1]))
         elif "file://" in sys.argv[1]:  # In case using 'Bulk Rename' option in Nemo, get file path from first parameter and auto-select the files.
-            first_file_address = sys.argv[1].replace("\'", "").replace("file://", "").replace("%20", " ")
-            if os.path.isdir(os.path.dirname(os.path.abspath(first_file_address))):  # If the first file is a valid path:  use folder path from it.
-                default_folder_path = os.path.dirname(os.path.abspath(first_file_address))
-                update_parameter_files_at_start(sys.argv[1:])
+            update_parameter_files_at_start(sys.argv[1:])  # Convert URL encoded files to paths
+            if os.path.isdir(os.path.dirname(os.path.abspath(parameter_files[0]))):  # If the first file is a valid path:  use folder path from it.
+                default_folder_path = os.path.dirname(os.path.abspath(parameter_files[0]))
             else:  # Invalid first file path:  so set the default_folder_path to where the python file is
                 default_folder_path = sys.path[0]
         else:  # Invalid file/folder paths:  so set the default_folder_path to where the python file is
