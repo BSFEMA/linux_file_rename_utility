@@ -282,6 +282,7 @@ class Main():
                                 )
             self.load_Data_Grid()
             self.resize_column_widths()
+            self.update_status_labels()
         else:
             # widget.get_style_context().remove_class('black-foreground')
             widget.get_style_context().add_class('red-foreground')
@@ -736,7 +737,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.8")
+        about.set_version("Version 1.9")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -2275,11 +2276,25 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
             part2 = ''
             part4 = file
         part5 = ''  # This will be done after we filter out all the files/folder we don't want
+        # Defect #1 - Check for broken symlinks of file/folder that no longer exist for part6 and part7
+        # Note:  If the file/folder is a broken symlink, then it will not be renamed, it will get the "Current Name's Full Path doesn't exist" status
+        try:  # Check to see if the file/folder is a broken symlink or no longer exists
+            os.stat(part0)
+            broken_link = False
+        except OSError:
+            broken_link = True
+            # print("\'" + str(part0) + "\' does not exist or is a broken symlink")
         if part3 == "File":
-            part6 = human_readable_filesize(os.stat(part0).st_size)
+            if broken_link == False:
+                part6 = human_readable_filesize(os.stat(part0).st_size)
+            else:
+                part6 = 'BROKEN LINK!!!'
         else:
             part6 = ''
-        part7 = datetime.datetime.fromtimestamp(os.stat(part0).st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+        if broken_link == False:
+            part7 = datetime.datetime.fromtimestamp(os.stat(part0).st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            part7 = 'BROKEN LINK!!!'
         if part4[:1] == '.':
             part8 = True
         else:

@@ -1,3 +1,7 @@
+# v1.9
+* Fixed:  Status Labels were not getting updated when you selected a new folder path.
+* Fixed:  It no longer crashes when it encounters a broken symlink or a file/folder that no long exists when loading the data grid.  Broken symlinks or file/folder that no longer exist will have their File Size and Date Modified set to "BROKEN LINK!!!".
+
 # v1.8
 * Fixed:  I updated the un-URLifying paths to support all percent-encodings and re-arranged the logic to better support this.
 * Fixed:  Updated the 'Command Line Parameters' section of the header comments to reflect the current behavior.
