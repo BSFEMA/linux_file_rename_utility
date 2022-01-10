@@ -152,7 +152,18 @@ class Main():
     #  These are the various widget's signal handler functions:  UI elements other than buttons & dialogs
     """ ************************************************************************************************************ """
 
+    def repaint_GUI(self):
+        # Defect #2 - Implement a waiting cursor to give an indication when the data grid is taking a long time to load.
+        # Unfortunately, I haven't found an easier/better way to implement this...
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+
     def box_9_files_section_changed(self, widget):  # Clear and rebuild data grid
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window = self.builder.get_object("main_window")
+        watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
+        window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
+        self.repaint_GUI()  # Make sure GUI is up to date
         self.clear_Data_Grid()
         populate_files_Full(self.builder.get_object("entry_Mask").get_text(),
                             self.builder.get_object("checkbox_Folders").get_active(),
@@ -165,6 +176,9 @@ class Main():
         self.load_Data_Grid()
         self.resize_column_widths()
         self.update_status_labels()
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window.get_window().set_cursor(None)  # Set curror back to 'None'
+        self.repaint_GUI()  # Make sure GUI is up to date
 
     def entry_Extension_changed(self, widget):
         self.check_settings_for_box_8()
@@ -262,6 +276,11 @@ class Main():
         entry_Folder_path.set_text(widget.get_filename())
 
     def entry_Folder_Path_changed(self, widget):
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window = self.builder.get_object("main_window")
+        watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
+        window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
+        self.repaint_GUI()  # Make sure GUI is up to date
         current_path = widget.get_text()
         if os.path.isdir(current_path):
             widget.get_style_context().remove_class('red-foreground')
@@ -286,6 +305,9 @@ class Main():
         else:
             # widget.get_style_context().remove_class('black-foreground')
             widget.get_style_context().add_class('red-foreground')
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window.get_window().set_cursor(None)  # Set curror back to 'None'
+        self.repaint_GUI()  # Make sure GUI is up to date
 
     def checkbox_Save_History_toggled(self, widget):
         # This doesn't really have any 'action' at the moment, as it's just a setting to be toggled
@@ -534,6 +556,11 @@ class Main():
                 self.rename_pairs_file = True
 
     def button_Refresh_clicked(self, widget):
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window = self.builder.get_object("main_window")
+        watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
+        window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
+        self.repaint_GUI()  # Make sure GUI is up to date
         self.clear_Data_Grid()
         populate_files_Full(self.builder.get_object("entry_Mask").get_text(),
                             self.builder.get_object("checkbox_Folders").get_active(),
@@ -546,8 +573,16 @@ class Main():
         self.load_Data_Grid()
         self.resize_column_widths()
         self.update_status_labels()
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window.get_window().set_cursor(None)  # Set curror back to 'None'
+        self.repaint_GUI()  # Make sure GUI is up to date
 
     def button_Refresh_and_Reselect_clicked(self, widget):
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window = self.builder.get_object("main_window")
+        watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
+        window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
+        self.repaint_GUI()  # Make sure GUI is up to date
         # Save selected rows
         treeview_Data_Grid = self.builder.get_object("treeview_Data_Grid")
         treeselection = treeview_Data_Grid.get_selection()
@@ -576,6 +611,9 @@ class Main():
         for x in range(len(model)):  # Select the currently unselected rows
             if x in temp_indexes:
                 treeselection.select_path(x)
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window.get_window().set_cursor(None)  # Set curror back to 'None'
+        self.repaint_GUI()  # Make sure GUI is up to date
 
     def button_Reset_clicked(self, widget):
         # I need to get all box 1-9 elements and manually reset them to default... I wish there was a better way...
@@ -737,7 +775,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.9")
+        about.set_version("Version 1.10")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11

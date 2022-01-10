@@ -1,3 +1,6 @@
+# v1.10
+* Added:  The cursor will now change to a waiting icon when the data grid is loading.  The cursor will change back to normal when the load is complete.  This gives a visual indication that the something is happening. 
+
 # v1.9
 * Fixed:  Status Labels were not getting updated when you selected a new folder path.
 * Fixed:  It no longer crashes when it encounters a broken symlink or a file/folder that no long exists when loading the data grid.  Broken symlinks or file/folder that no longer exist will have their File Size and Date Modified set to "BROKEN LINK!!!".
