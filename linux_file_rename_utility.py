@@ -68,6 +68,8 @@ class Main():
         provider = gtk.CssProvider()
         provider.load_from_path(os.path.join(sys.path[0], "linux_file_rename_utility.css"))  # Looking where the python script is located
         gtk.StyleContext().add_provider_for_screen(gdk.Screen.get_default(), provider, gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        # Set initial_load to True so that the data grid doesn't refresh multiple times when various settings are being initialized
+        self.initial_load = True
         # Set filechooser_Folder_Selecter and entry_Folder_path values to the default_folder_path
         filechooser_Folder_Selecter = self.builder.get_object("filechooser_Folder_Selecter")
         filechooser_Folder_Selecter.set_current_folder(default_folder_path)
@@ -100,13 +102,22 @@ class Main():
         combo_Name = self.builder.get_object("combo_Name")
         combo_Name.set_entry_text_column(0)
         combo_Name.set_active(0)
-        # Set the checkboxes in the box_Files section
-        checkbox_Folders = self.builder.get_object("checkbox_Folders")
-        checkbox_Folders.set_active(True)
-        checkbox_Subfolders = self.builder.get_object("checkbox_Subfolders")
-        checkbox_Files = self.builder.get_object("checkbox_Files")
-        checkbox_Files.set_active(True)
-        checkbox_Hidden = self.builder.get_object("checkbox_Hidden")
+        # Apply custom user application settings
+        self.apply_application_settings()
+        # Set the checkboxes in the box_Files section to the 'default' values if the settings are not in the custom user application settings
+        if self.file_folders_default == True:
+            checkbox_Folders = self.builder.get_object("checkbox_Folders")
+            checkbox_Folders.set_active(True)
+            checkbox_Subfolders = self.builder.get_object("checkbox_Subfolders")
+            checkbox_Files = self.builder.get_object("checkbox_Files")
+            checkbox_Files.set_active(True)
+            checkbox_Hidden = self.builder.get_object("checkbox_Hidden")
+        # Set initial_load to False as the application settings should now be setup correctly
+        self.initial_load = False
+        self.repaint_GUI()  # Make sure GUI is up to date
+        watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
+        window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
+        self.repaint_GUI()  # Make sure GUI is up to date
         # Setup the data grid
         treeview_Data_Grid = self.builder.get_object("treeview_Data_Grid")
         treeview_Data_Grid.get_selection().set_mode(gtk.SelectionMode.MULTIPLE)  # Now it can multiselect rows
@@ -138,8 +149,9 @@ class Main():
         label_Status_Failed.set_text("")
         label_Status_Failed.get_style_context().add_class('grey-border')
         self.update_status_labels()
-        # Apply custom user application settings
-        self.apply_application_settings()
+        self.repaint_GUI()  # Make sure GUI is up to date
+        window.get_window().set_cursor(None)  # Set curror back to 'None'
+        self.repaint_GUI()  # Make sure GUI is up to date
         global previous_selection
         global parameter_files
         if len(parameter_files) > 0:  # If there are files passed from the command line, have them selected in the data grid
@@ -159,26 +171,27 @@ class Main():
             gtk.main_iteration_do(False)
 
     def box_9_files_section_changed(self, widget):  # Clear and rebuild data grid
-        self.repaint_GUI()  # Make sure GUI is up to date
-        window = self.builder.get_object("main_window")
-        watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
-        window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
-        self.repaint_GUI()  # Make sure GUI is up to date
-        self.clear_Data_Grid()
-        populate_files_Full(self.builder.get_object("entry_Mask").get_text(),
-                            self.builder.get_object("checkbox_Folders").get_active(),
-                            self.builder.get_object("checkbox_Subfolders").get_active(),
-                            self.builder.get_object("checkbox_Files").get_active(),
-                            self.builder.get_object("checkbox_Hidden").get_active(),
-                            self.builder.get_object("spin_File_Name_Min").get_value_as_int(),
-                            self.builder.get_object("spin_File_Name_Max").get_value_as_int(),
-                            )
-        self.load_Data_Grid()
-        self.resize_column_widths()
-        self.update_status_labels()
-        self.repaint_GUI()  # Make sure GUI is up to date
-        window.get_window().set_cursor(None)  # Set curror back to 'None'
-        self.repaint_GUI()  # Make sure GUI is up to date
+        if not self.initial_load:
+            self.repaint_GUI()  # Make sure GUI is up to date
+            window = self.builder.get_object("main_window")
+            watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
+            window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
+            self.repaint_GUI()  # Make sure GUI is up to date
+            self.clear_Data_Grid()
+            populate_files_Full(self.builder.get_object("entry_Mask").get_text(),
+                                self.builder.get_object("checkbox_Folders").get_active(),
+                                self.builder.get_object("checkbox_Subfolders").get_active(),
+                                self.builder.get_object("checkbox_Files").get_active(),
+                                self.builder.get_object("checkbox_Hidden").get_active(),
+                                self.builder.get_object("spin_File_Name_Min").get_value_as_int(),
+                                self.builder.get_object("spin_File_Name_Max").get_value_as_int(),
+                                )
+            self.load_Data_Grid()
+            self.resize_column_widths()
+            self.update_status_labels()
+            self.repaint_GUI()  # Make sure GUI is up to date
+            window.get_window().set_cursor(None)  # Set curror back to 'None'
+            self.repaint_GUI()  # Make sure GUI is up to date
 
     def entry_Extension_changed(self, widget):
         self.check_settings_for_box_8()
@@ -276,38 +289,39 @@ class Main():
         entry_Folder_path.set_text(widget.get_filename())
 
     def entry_Folder_Path_changed(self, widget):
-        self.repaint_GUI()  # Make sure GUI is up to date
-        window = self.builder.get_object("main_window")
-        watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
-        window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
-        self.repaint_GUI()  # Make sure GUI is up to date
-        current_path = widget.get_text()
-        if os.path.isdir(current_path):
-            widget.get_style_context().remove_class('red-foreground')
-            # widget.get_style_context().add_class('black-foreground')
-            # Reload the data grid now that a new (real) folder is selected
-            global default_folder_path
-            if current_path[-1:] == "/":  # remove the final "/" from a path
-                current_path = current_path[:-1]
-            default_folder_path = current_path  # Now that the edited text is a folder, set the default_folder_path to use that
-            self.clear_Data_Grid()
-            populate_files_Full(self.builder.get_object("entry_Mask").get_text(),
-                                self.builder.get_object("checkbox_Folders").get_active(),
-                                self.builder.get_object("checkbox_Subfolders").get_active(),
-                                self.builder.get_object("checkbox_Files").get_active(),
-                                self.builder.get_object("checkbox_Hidden").get_active(),
-                                self.builder.get_object("spin_File_Name_Min").get_value_as_int(),
-                                self.builder.get_object("spin_File_Name_Max").get_value_as_int(),
-                                )
-            self.load_Data_Grid()
-            self.resize_column_widths()
-            self.update_status_labels()
-        else:
-            # widget.get_style_context().remove_class('black-foreground')
-            widget.get_style_context().add_class('red-foreground')
-        self.repaint_GUI()  # Make sure GUI is up to date
-        window.get_window().set_cursor(None)  # Set curror back to 'None'
-        self.repaint_GUI()  # Make sure GUI is up to date
+        if not self.initial_load:
+            self.repaint_GUI()  # Make sure GUI is up to date
+            window = self.builder.get_object("main_window")
+            watch_cursor = gdk.Cursor(gdk.CursorType.WATCH)
+            window.get_window().set_cursor(watch_cursor)  # Set curror to 'Waiting'
+            self.repaint_GUI()  # Make sure GUI is up to date
+            current_path = widget.get_text()
+            if os.path.isdir(current_path):
+                widget.get_style_context().remove_class('red-foreground')
+                # widget.get_style_context().add_class('black-foreground')
+                # Reload the data grid now that a new (real) folder is selected
+                global default_folder_path
+                if current_path[-1:] == "/":  # remove the final "/" from a path
+                    current_path = current_path[:-1]
+                default_folder_path = current_path  # Now that the edited text is a folder, set the default_folder_path to use that
+                self.clear_Data_Grid()
+                populate_files_Full(self.builder.get_object("entry_Mask").get_text(),
+                                    self.builder.get_object("checkbox_Folders").get_active(),
+                                    self.builder.get_object("checkbox_Subfolders").get_active(),
+                                    self.builder.get_object("checkbox_Files").get_active(),
+                                    self.builder.get_object("checkbox_Hidden").get_active(),
+                                    self.builder.get_object("spin_File_Name_Min").get_value_as_int(),
+                                    self.builder.get_object("spin_File_Name_Max").get_value_as_int(),
+                                    )
+                self.load_Data_Grid()
+                self.resize_column_widths()
+                self.update_status_labels()
+            else:
+                # widget.get_style_context().remove_class('black-foreground')
+                widget.get_style_context().add_class('red-foreground')
+            self.repaint_GUI()  # Make sure GUI is up to date
+            window.get_window().set_cursor(None)  # Set curror back to 'None'
+            self.repaint_GUI()  # Make sure GUI is up to date
 
     def checkbox_Save_History_toggled(self, widget):
         # This doesn't really have any 'action' at the moment, as it's just a setting to be toggled
@@ -775,7 +789,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.10")
+        about.set_version("Version 1.11")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -1096,6 +1110,8 @@ class Main():
 
     def apply_application_settings(self):  # Applies the user's default or custom widget settings
         global application_Settings
+        # A check to see if the checkboxes in the box_Files section are set in the custom user application settings or not
+        self.file_folders_default = True
         for setting in application_Settings:
             # HIDDEN SETTINGS
             if setting[0] == "window_maximize" and setting[1] == "True":
@@ -1140,27 +1156,35 @@ class Main():
             if setting[0] == "checkbox_Folders" and setting[1] == "True":
                 checkbox_Folders = self.builder.get_object(setting[0])
                 checkbox_Folders.set_active(True)
+                self.file_folders_default = False
             elif setting[0] == "checkbox_Folders" and setting[1] == "False":
                 checkbox_Folders = self.builder.get_object(setting[0])
                 checkbox_Folders.set_active(False)
+                self.file_folders_default = False
             if setting[0] == "checkbox_Subfolders" and setting[1] == "True":
                 checkbox_Subfolders = self.builder.get_object(setting[0])
                 checkbox_Subfolders.set_active(True)
+                self.file_folders_default = False
             elif setting[0] == "checkbox_Subfolders" and setting[1] == "False":
                 checkbox_Subfolders = self.builder.get_object(setting[0])
                 checkbox_Subfolders.set_active(False)
+                self.file_folders_default = False
             if setting[0] == "checkbox_Files" and setting[1] == "True":
                 checkbox_Files = self.builder.get_object(setting[0])
                 checkbox_Files.set_active(True)
+                self.file_folders_default = False
             elif setting[0] == "checkbox_Files" and setting[1] == "False":
                 checkbox_Files = self.builder.get_object(setting[0])
                 checkbox_Files.set_active(False)
+                self.file_folders_default = False
             if setting[0] == "checkbox_Hidden" and setting[1] == "True":
                 checkbox_Hidden = self.builder.get_object(setting[0])
                 checkbox_Hidden.set_active(True)
+                self.file_folders_default = False
             elif setting[0] == "checkbox_Hidden" and setting[1] == "False":
                 checkbox_Hidden = self.builder.get_object(setting[0])
                 checkbox_Hidden.set_active(False)
+                self.file_folders_default = False
             if setting[0] == "checkbox_Save_History" and setting[1] == "True":
                 checkbox_Save_History = self.builder.get_object(setting[0])
                 checkbox_Save_History.set_active(True)

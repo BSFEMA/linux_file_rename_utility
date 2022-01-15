@@ -1,3 +1,6 @@
+# v1.11
+* Fixed:  Initial load of the data grid and applying the saved application settings.
+
 # v1.10
 * Added:  The cursor will now change to a waiting icon when the data grid is loading.  The cursor will change back to normal when the load is complete.  This gives a visual indication that the something is happening. 
 
