@@ -38,6 +38,8 @@ rename_pairs_file_to_load = ""  # The path to the rename pair file to import.
 konami_code = []  # Easter Egg to see if the Konami code has been entered in the About dialog.
 previous_selection = [[], 0, "", True]  # [ [list of selected rows], len(model), "default_folder_path", [Boolean = should it treeview_Data_Grid_selection_changed] ]
 parameter_files = []  # Holds the file(s) locations passed in via the command line.  To be auto selected.
+alert_color_foreground = "black"  # The foreground color of data grid cell when there is a problem
+alert_color_background = "red"  # The background color of data grid cell when there is a problem
 
 
 class Main():
@@ -789,7 +791,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.11")
+        about.set_version("Version 1.12")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -867,6 +869,8 @@ class Main():
         if response == gtk.ResponseType.OK:
             file = saveas_dialog.get_filename()
         elif response == gtk.ResponseType.CANCEL:
+            file = ""
+        else:
             file = ""
         saveas_dialog.destroy()
         if file != "":
@@ -1425,7 +1429,7 @@ class Main():
             for item in items:  # items = selected rows
                 if model[item][5] == "Renamed!":
                     renamed = renamed + 1
-                elif model[item][5] == "New Name path already exists" or model[item][5] == "FAILED TO RENAME!" or model[item][5] == "Current Name's Full Path doesn't exist":
+                elif model[item][5] == "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">New Name path already exists!</span>" or model[item][5] == "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">FAILED TO RENAME!</span>" or model[item][5] == "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">Current Name's Full Path doesn't exist!</span>":
                     failed = failed + 1
         label_Status_Renamed = self.builder.get_object("label_Status_Renamed")
         label_Status_Renamed.set_text(str(renamed) + " objects successfully renamed")
@@ -1460,15 +1464,15 @@ class Main():
                 # Test and perform rename
                 if os.path.exists(rename_pairs[loop][3]):  # Does the current file's full path still exist?
                     if os.path.exists(new_name_path):  # Does the new file's full path already exist?
-                        rename_pairs[loop][2] = "New Name path already exists"
+                        rename_pairs[loop][2] = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">New Name path already exists!</span>"
                     else:  # New file's full path doesn't exist, try to rename
                         try:  # Try to rename the file
                             os.rename(rename_pairs[loop][3], new_name_path)
                             rename_pairs[loop][2] = "Renamed!"
                         except Exception:  # Catch exception on file rename operation
-                            rename_pairs[loop][2] = "FAILED TO RENAME!"
+                            rename_pairs[loop][2] = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">FAILED TO RENAME!</span>"
                 else:  # Current file's full path doesn't exist
-                    rename_pairs[loop][2] = "Current Name's Full Path doesn't exist"
+                    rename_pairs[loop][2] = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">Current Name's Full Path doesn't exist!</span>"
             else:
                 folder_rename_pairs.append(rename_pairs[loop])
         # Sort folder_rename_pairs do the longest path is first. This should guarantee that the subfolders are renamed before the parent folders.
@@ -1488,15 +1492,15 @@ class Main():
             # Test and perform rename
             if os.path.exists(folder_rename_pairs[loop][3]):  # Does the current file's full path still exist?
                 if os.path.exists(new_name_path):  # Does the new file's full path already exist?
-                    folder_rename_pairs[loop][2] = "New Name path already exists"
+                    folder_rename_pairs[loop][2] = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">New Name path already exists!</span>"
                 else:  # New file's full path doesn't exist, try to rename
                     try:  # Try to rename the file
                         os.rename(folder_rename_pairs[loop][3], new_name_path)
                         folder_rename_pairs[loop][2] = "Renamed!"
                     except Exception:  # Catch exception on file rename operation
-                        folder_rename_pairs[loop][2] = "FAILED TO RENAME!"
+                        folder_rename_pairs[loop][2] = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">FAILED TO RENAME!</span>"
             else:  # Current file's full path doesn't exist
-                folder_rename_pairs[loop][2] = "Current Name's Full Path doesn't exist"
+                folder_rename_pairs[loop][2] = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">Current Name's Full Path doesn't exist!</span>"
 
     def save_history(self):  # This saves a pipe delimited list of "Type|Full Path|New Name|Status" to ~/.local/share/BSFEMA/
         checkbox_Save_History = self.builder.get_object("checkbox_Save_History")
@@ -2339,7 +2343,7 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
             part4 = file
         part5 = ''  # This will be done after we filter out all the files/folder we don't want
         # Defect #1 - Check for broken symlinks of file/folder that no longer exist for part6 and part7
-        # Note:  If the file/folder is a broken symlink, then it will not be renamed, it will get the "Current Name's Full Path doesn't exist" status
+        # Note:  If the file/folder is a broken symlink, then it will not be renamed, it will get the "Current Name's Full Path doesn't exist!" status
         try:  # Check to see if the file/folder is a broken symlink or no longer exists
             os.stat(part0)
             broken_link = False
@@ -2350,13 +2354,13 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
             if broken_link == False:
                 part6 = human_readable_filesize(os.stat(part0).st_size)
             else:
-                part6 = 'BROKEN LINK!!!'
+                part6 = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">BROKEN LINK!!!</span>"
         else:
             part6 = ''
         if broken_link == False:
             part7 = datetime.datetime.fromtimestamp(os.stat(part0).st_mtime).strftime("%Y-%m-%d %H:%M:%S")
         else:
-            part7 = 'BROKEN LINK!!!'
+            part7 = "<span background=\"" + str(alert_color_background) + "\" foreground=\"" + str(alert_color_foreground) + "\">BROKEN LINK!!!</span>"
         if part4[:1] == '.':
             part8 = True
         else:
@@ -2374,8 +2378,12 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
             if file[3] == "Folder":
                 files_temp.append(file)
             else:
-                if re.search(entry_Mask[1:], file[4]):
-                    files_temp.append(file)
+                try:
+                    if re.search(entry_Mask.lstrip("*"), file[4]):
+                        files_temp.append(file)
+                except Exception:  # Catch exception on invalid search
+                    # print("Invalid search string")
+                    pass
         files_unsorted = files_temp
     # checkbox_Folders = True
     if checkbox_Folders is False:
@@ -2605,6 +2613,8 @@ def update_local_path_with_new_value(current_full_path, current_name, file_type)
     global default_folder_path
     if default_folder_path[-1:] != "/":  # remove the final "/" from a path
         temp_default_folder_path = default_folder_path + "/"
+    else:
+        temp_default_folder_path = default_folder_path
     local_path = current_full_path[len(temp_default_folder_path):]
     return local_path
 

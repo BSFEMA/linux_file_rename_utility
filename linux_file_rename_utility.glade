@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAdjustment" id="adjustment_Add_Insert">
     <property name="lower">-1000</property>
     <property name="upper">1000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_File_Name_Max">
     <property name="lower">-1000</property>
     <property name="upper">1000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_File_Name_Min">
     <property name="lower">-1000</property>
     <property name="upper">1000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Numbering_At">
     <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Numbering_Increment">
     <property name="lower">-100</property>
     <property name="upper">100</property>
     <property name="value">1</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Numbering_Padding">
     <property name="upper">100</property>
     <property name="value">1</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Numbering_Start">
     <property name="upper">1000000</property>
     <property name="value">1</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Remove_First">
     <property name="upper">255</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Remove_From">
     <property name="upper">255</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Remove_Last">
     <property name="upper">255</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_Remove_To">
     <property name="upper">255</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkListStore" id="liststore_Append_Folder_Name">
     <columns>
@@ -216,28 +216,25 @@
   </object>
   <object class="GtkWindow" id="main_window">
     <property name="name">main_window</property>
-    <property name="can_focus">False</property>
-    <property name="window_position">center</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
+    <property name="can-focus">False</property>
+    <property name="window-position">center</property>
     <child>
       <object class="GtkBox" id="box_Main">
         <property name="name">box_Main</property>
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box_Folder_Selecter">
             <property name="name">box_Folder_Selecter</property>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkFileChooserButton" id="filechooser_Folder_Selecter">
                 <property name="name">filechooser_Folder_Selecter</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">Use this Folder Selector to choose the folder (current path) for the application to use</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Use this Folder Selector to choose the folder (current path) for the application to use</property>
                 <property name="action">select-folder</property>
                 <property name="title" translatable="yes"/>
                 <signal name="file-set" handler="filechooser_Folder_Selecter_fileset" swapped="no"/>
@@ -252,8 +249,8 @@
               <object class="GtkEntry" id="entry_Folder_path">
                 <property name="name">entry_Folder_path</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="tooltip_markup" translatable="yes">The folder (current path) that the application is using</property>
+                <property name="can-focus">True</property>
+                <property name="tooltip-markup" translatable="yes">The folder (current path) that the application is using</property>
                 <signal name="changed" handler="entry_Folder_Path_changed" swapped="no"/>
               </object>
               <packing>
@@ -273,15 +270,15 @@
           <object class="GtkScrolledWindow" id="scrollwindow_Data_Grid">
             <property name="name">zscrollwindow_Data_Grid</property>
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="shadow_type">in</property>
+            <property name="can-focus">True</property>
+            <property name="shadow-type">in</property>
             <child>
               <object class="GtkTreeView" id="treeview_Data_Grid">
                 <property name="name">treeview_Data_Grid</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can-focus">True</property>
                 <property name="model">liststore_Data_Grid</property>
-                <property name="enable_grid_lines">both</property>
+                <property name="enable-grid-lines">both</property>
                 <signal name="button-press-event" handler="treeview_Data_Grid_button_press_event" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection"/>
@@ -337,6 +334,7 @@
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderer_Size"/>
                       <attributes>
+                        <attribute name="markup">3</attribute>
                         <attribute name="text">3</attribute>
                       </attributes>
                     </child>
@@ -351,6 +349,7 @@
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderer_Date_Modified"/>
                       <attributes>
+                        <attribute name="markup">4</attribute>
                         <attribute name="text">4</attribute>
                       </attributes>
                     </child>
@@ -365,6 +364,7 @@
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderer_Status"/>
                       <attributes>
+                        <attribute name="markup">5</attribute>
                         <attribute name="text">5</attribute>
                       </attributes>
                     </child>
@@ -443,22 +443,22 @@
           <object class="GtkBox" id="box_Options_and_Buttons">
             <property name="name">box_Options_and_Buttons</property>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkBox" id="box_Options">
                 <property name="name">box_Options</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkBox" id="box_Name">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Name_Main">
                         <property name="name">label_Name_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">1. File Name:  </property>
                       </object>
                       <packing>
@@ -471,16 +471,16 @@
                       <object class="GtkComboBox" id="combo_Name">
                         <property name="name">combo_Name</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">File Name Options</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">File Name Options</property>
                         <property name="model">liststore_Name</property>
-                        <property name="has_entry">True</property>
-                        <property name="entry_text_column">0</property>
+                        <property name="has-entry">True</property>
+                        <property name="entry-text-column">0</property>
                         <signal name="changed" handler="combo_Name_changed" object="combo_Name_Entry" swapped="no"/>
                         <child internal-child="entry">
                           <object class="GtkEntry" id="combo_Name_Entry">
                             <property name="name">combo_Name_Entry</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                         </child>
                       </object>
@@ -494,8 +494,8 @@
                       <object class="GtkEntry" id="entry_Name_Fixed">
                         <property name="name">entry_Name_Fixed</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Set the filename to a Fixed value</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Set the filename to a Fixed value</property>
                         <signal name="changed" handler="entry_Name_Fixed_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -514,12 +514,12 @@
                 <child>
                   <object class="GtkBox" id="box_Replace">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Replace_Main">
                         <property name="name">label_Replace_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">2. Replace:  </property>
                       </object>
                       <packing>
@@ -532,7 +532,7 @@
                       <object class="GtkLabel" id="label_Replace_Search">
                         <property name="name">label_Replace_Search</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Search</property>
                       </object>
                       <packing>
@@ -545,8 +545,8 @@
                       <object class="GtkEntry" id="entry_Replace_Search">
                         <property name="name">entry_Replace_Search</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Search for this string to be replaced</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Search for this string to be replaced</property>
                         <signal name="changed" handler="entry_Replace_Search_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -561,10 +561,10 @@
 Sensitive</property>
                         <property name="name">checkbox_Replace_Case</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Should the search string by treated as case sensitive or not</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Should the search string by treated as case sensitive or not</property>
+                        <property name="draw-indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -576,7 +576,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Replace_With">
                         <property name="name">label_Replace_With</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">With</property>
                       </object>
                       <packing>
@@ -589,8 +589,8 @@ Sensitive</property>
                       <object class="GtkEntry" id="entry_Replace_With">
                         <property name="name">entry_Replace_With</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Replaces searched string with this string</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Replaces searched string with this string</property>
                         <signal name="changed" handler="entry_Replace_Search_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -609,12 +609,12 @@ Sensitive</property>
                 <child>
                   <object class="GtkBox" id="box_Case">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Case_Main">
                         <property name="name">label_Case_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">3. Case:  </property>
                       </object>
                       <packing>
@@ -627,16 +627,16 @@ Sensitive</property>
                       <object class="GtkComboBox" id="combo_Case">
                         <property name="name">combo_Case</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Case of filename</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Case of filename</property>
                         <property name="model">liststore_Combo</property>
-                        <property name="has_entry">True</property>
-                        <property name="entry_text_column">0</property>
+                        <property name="has-entry">True</property>
+                        <property name="entry-text-column">0</property>
                         <signal name="changed" handler="combo_Case_changed" object="combo_Case_Entry" swapped="no"/>
                         <child internal-child="entry">
                           <object class="GtkEntry" id="combo_Case_Entry">
                             <property name="name">combo_Case_Entry</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                         </child>
                       </object>
@@ -656,12 +656,12 @@ Sensitive</property>
                 <child>
                   <object class="GtkBox" id="box_Remove">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Remove_Main">
                         <property name="name">label_Remove_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">4. Remove:  </property>
                       </object>
                       <packing>
@@ -674,7 +674,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Remove_First">
                         <property name="name">label_Remove_First</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">First</property>
                       </object>
                       <packing>
@@ -687,8 +687,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Remove_First">
                         <property name="name">spin_Remove_First</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Remove First # characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Remove First # characters</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Remove_First</property>
                         <signal name="value-changed" handler="spin_Remove_changed" swapped="no"/>
@@ -703,7 +703,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Remove_Last">
                         <property name="name">label_Remove_Last</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Last</property>
                       </object>
                       <packing>
@@ -716,8 +716,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Remove_Last">
                         <property name="name">spin_Remove_Last</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Remove Last # characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Remove Last # characters</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Remove_Last</property>
                         <signal name="value-changed" handler="spin_Remove_changed" swapped="no"/>
@@ -732,7 +732,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Remove_From">
                         <property name="name">label_Remove_From</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">From</property>
                       </object>
                       <packing>
@@ -745,8 +745,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Remove_From">
                         <property name="name">spin_Remove_From</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Remove characters starting From character #</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Remove characters starting From character #</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Remove_From</property>
                         <signal name="value-changed" handler="spin_Remove_changed" swapped="no"/>
@@ -761,7 +761,7 @@ Sensitive</property>
                       <object class="GtkAccelLabel" id="label_Remove_To">
                         <property name="name">label_Remove_To</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">To</property>
                       </object>
                       <packing>
@@ -774,8 +774,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Remove_To">
                         <property name="name">spin_Remove_To</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Remove characters going To character #</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Remove characters going To character #</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Remove_To</property>
                         <signal name="value-changed" handler="spin_Remove_changed" swapped="no"/>
@@ -790,7 +790,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Remove_Crop">
                         <property name="name">label_Remove_Crop</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Crop</property>
                       </object>
                       <packing>
@@ -803,16 +803,16 @@ Sensitive</property>
                       <object class="GtkComboBox" id="combo_Remove_Crop">
                         <property name="name">combo_Remove_Crop</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Crop Options</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Crop Options</property>
                         <property name="model">liststore_Remove_Crop</property>
-                        <property name="has_entry">True</property>
-                        <property name="entry_text_column">0</property>
+                        <property name="has-entry">True</property>
+                        <property name="entry-text-column">0</property>
                         <signal name="changed" handler="combo_Remove_Crop_changed" object="combo_Remove_Crop_Entry" swapped="no"/>
                         <child internal-child="entry">
                           <object class="GtkEntry" id="combo_Remove_Crop_Entry">
                             <property name="name">combo_Remove_Crop_Entry</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                         </child>
                       </object>
@@ -826,8 +826,8 @@ Sensitive</property>
                       <object class="GtkEntry" id="entry_Remove_Crop">
                         <property name="name">entry_Remove_Crop</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Characters to Crop on</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Characters to Crop on</property>
                         <signal name="changed" handler="entry_Remove_Crop_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -846,12 +846,12 @@ Sensitive</property>
                 <child>
                   <object class="GtkBox" id="box_Add">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Add_Main">
                         <property name="name">label_Add_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">5. Add:  </property>
                       </object>
                       <packing>
@@ -864,7 +864,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Add_Prefix">
                         <property name="name">label_Add_Prefix</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Prefix</property>
                       </object>
                       <packing>
@@ -877,8 +877,8 @@ Sensitive</property>
                       <object class="GtkEntry" id="entry_Add_Prefix">
                         <property name="name">entry_Add_Prefix</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Add Prefix characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Add Prefix characters</property>
                         <signal name="changed" handler="entry_Add_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -891,7 +891,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Add_Suffix">
                         <property name="name">label_Add_Suffix</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Suffix</property>
                       </object>
                       <packing>
@@ -904,8 +904,8 @@ Sensitive</property>
                       <object class="GtkEntry" id="entry_Add_Suffix">
                         <property name="name">entry_Add_Suffix</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Add Suffix characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Add Suffix characters</property>
                         <signal name="changed" handler="entry_Add_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -918,7 +918,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Add_Insert">
                         <property name="name">label_Add_Insert</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Insert</property>
                       </object>
                       <packing>
@@ -931,8 +931,8 @@ Sensitive</property>
                       <object class="GtkEntry" id="entry_Add_Insert">
                         <property name="name">entry_Add_Insert</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Add Insert characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Add Insert characters</property>
                         <signal name="changed" handler="entry_Add_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -945,7 +945,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Add_Insert_At">
                         <property name="name">label_Add_Insert_At</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">At</property>
                       </object>
                       <packing>
@@ -958,8 +958,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Add_Insert">
                         <property name="name">spin_Add_Insert</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Add Insert characters at position #</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Add Insert characters at position #</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Add_Insert</property>
                         <signal name="value-changed" handler="entry_Add_changed" swapped="no"/>
@@ -980,12 +980,12 @@ Sensitive</property>
                 <child>
                   <object class="GtkBox" id="box_Append">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Append_Main">
                         <property name="name">label_Append_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">6. Append Folder Name:  </property>
                       </object>
                       <packing>
@@ -998,16 +998,16 @@ Sensitive</property>
                       <object class="GtkComboBox" id="combo_Append_Folder_Name">
                         <property name="name">combo_Append_Folder_Name</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Append Folder Name Options</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Append Folder Name Options</property>
                         <property name="model">liststore_Append_Folder_Name</property>
-                        <property name="has_entry">True</property>
-                        <property name="entry_text_column">0</property>
+                        <property name="has-entry">True</property>
+                        <property name="entry-text-column">0</property>
                         <signal name="changed" handler="combo_Append_Folder_Name_changed" object="combo_Append_Folder_Name_Entry" swapped="no"/>
                         <child internal-child="entry">
                           <object class="GtkEntry" id="combo_Append_Folder_Name_Entry">
                             <property name="name">combo_Append_Folder_Name_Entry</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                         </child>
                       </object>
@@ -1021,7 +1021,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Append_Folder_Name_Separator">
                         <property name="name">label_Append_Folder_Name_Separator</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Separator</property>
                       </object>
                       <packing>
@@ -1034,8 +1034,8 @@ Sensitive</property>
                       <object class="GtkEntry" id="entry_Append_Folder_Name_Separator">
                         <property name="name">entry_Append_Folder_Name_Separator</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Separator characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Separator characters</property>
                         <signal name="changed" handler="entry_Append_Folder_Name_Separator_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -1054,12 +1054,12 @@ Sensitive</property>
                 <child>
                   <object class="GtkBox" id="box_Numbering">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Numbering_Main">
                         <property name="name">label_Numbering_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">7. Numbering:  </property>
                       </object>
                       <packing>
@@ -1072,16 +1072,16 @@ Sensitive</property>
                       <object class="GtkComboBox" id="combo_Numbering">
                         <property name="name">combo_Numbering</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Numbering Options</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Numbering Options</property>
                         <property name="model">liststore_Numbering</property>
-                        <property name="has_entry">True</property>
-                        <property name="entry_text_column">0</property>
+                        <property name="has-entry">True</property>
+                        <property name="entry-text-column">0</property>
                         <signal name="changed" handler="combo_Numbering_changed" object="combo_Numbering_Entry" swapped="no"/>
                         <child internal-child="entry">
                           <object class="GtkEntry" id="combo_Numbering_Entry">
                             <property name="name">combo_Numbering_Entry</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                         </child>
                       </object>
@@ -1095,7 +1095,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Numbering_At">
                         <property name="name">label_Numbering_At</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">At</property>
                       </object>
                       <packing>
@@ -1108,8 +1108,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Numbering_At">
                         <property name="name">spin_Numbering_At</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Insert numbering at position #</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Insert numbering at position #</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Numbering_At</property>
                         <signal name="value-changed" handler="widgets_Numbering_changed" swapped="no"/>
@@ -1124,7 +1124,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Numbering_Start">
                         <property name="name">label_Numbering_Start</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Start</property>
                       </object>
                       <packing>
@@ -1137,8 +1137,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Numbering_Start">
                         <property name="name">spin_Numbering_Start</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Starting value to begin numbering</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Starting value to begin numbering</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Numbering_Start</property>
                         <signal name="value-changed" handler="widgets_Numbering_changed" swapped="no"/>
@@ -1153,7 +1153,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Numbering_Increment">
                         <property name="name">label_Numbering_Increment</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Increment</property>
                       </object>
                       <packing>
@@ -1166,8 +1166,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Numbering_Increment">
                         <property name="name">spin_Numbering_Increment</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Amount by which to increment the numbering</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Amount by which to increment the numbering</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Numbering_Increment</property>
                         <signal name="value-changed" handler="widgets_Numbering_changed" swapped="no"/>
@@ -1182,7 +1182,7 @@ Sensitive</property>
                       <object class="GtkLabel" id="label_Numbering_Padding">
                         <property name="name">label_Numbering_Padding</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Padding</property>
                       </object>
                       <packing>
@@ -1195,8 +1195,8 @@ Sensitive</property>
                       <object class="GtkSpinButton" id="spin_Numbering_Padding">
                         <property name="name">spin_Numbering_Padding</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Amount of padding characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Amount of padding characters</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_Numbering_Padding</property>
                         <signal name="value-changed" handler="widgets_Numbering_changed" swapped="no"/>
@@ -1213,10 +1213,10 @@ Sensitive</property>
 Folder</property>
                         <property name="name">checkbox_Numbering_Per_Folder</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Apply numbering per individual folder</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Apply numbering per individual folder</property>
+                        <property name="draw-indicator">True</property>
                         <signal name="toggled" handler="widgets_Numbering_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -1229,7 +1229,7 @@ Folder</property>
                       <object class="GtkLabel" id="label_Separator">
                         <property name="name">label_Separator</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Separator</property>
                       </object>
                       <packing>
@@ -1242,8 +1242,8 @@ Folder</property>
                       <object class="GtkEntry" id="entry_Numbering_Separator">
                         <property name="name">entry_Numbering_Separator</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Separator characters</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Separator characters</property>
                         <signal name="changed" handler="widgets_Numbering_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -1262,12 +1262,12 @@ Folder</property>
                 <child>
                   <object class="GtkBox" id="box_Extension">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Extension_Main">
                         <property name="name">label_Extension_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">8. Extension:  </property>
                       </object>
                       <packing>
@@ -1280,16 +1280,16 @@ Folder</property>
                       <object class="GtkComboBox" id="combo_Extension">
                         <property name="name">combo_Extension</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Extension options</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Extension options</property>
                         <property name="model">liststore_Extension</property>
-                        <property name="has_entry">True</property>
-                        <property name="entry_text_column">0</property>
+                        <property name="has-entry">True</property>
+                        <property name="entry-text-column">0</property>
                         <signal name="changed" handler="combo_Extension_changed" object="combo_Extension_entry" swapped="no"/>
                         <child internal-child="entry">
                           <object class="GtkEntry" id="combo_Extension_entry">
                             <property name="name">combo_Extension_entry</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                         </child>
                       </object>
@@ -1303,8 +1303,8 @@ Folder</property>
                       <object class="GtkEntry" id="entry_Extension">
                         <property name="name">entry_Extension</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Set the Extension for 'Rename' and 'Extra' options</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Set the Extension for 'Rename' and 'Extra' options</property>
                         <property name="editable">False</property>
                         <signal name="changed" handler="entry_Extension_changed" swapped="no"/>
                       </object>
@@ -1324,12 +1324,12 @@ Folder</property>
                 <child>
                   <object class="GtkBox" id="box_Files">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_Files_Main">
                         <property name="name">label_Files_Main</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">9. Files:  </property>
                       </object>
                       <packing>
@@ -1342,8 +1342,8 @@ Folder</property>
                       <object class="GtkEntry" id="entry_Mask">
                         <property name="name">entry_Mask</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Mask - Must be in "*.&lt;something&gt;" format
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Mask - Must be in "*.&lt;something&gt;" format
 e.g. *.* | *.txt | *.mp3</property>
                         <property name="text" translatable="yes">*.*</property>
                         <signal name="changed" handler="box_9_files_section_changed" swapped="no"/>
@@ -1359,10 +1359,10 @@ e.g. *.* | *.txt | *.mp3</property>
                         <property name="label" translatable="yes">Folders</property>
                         <property name="name">checkbox_Folders</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Include Folders in data grid</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Include Folders in data grid</property>
+                        <property name="draw-indicator">True</property>
                         <signal name="toggled" handler="box_9_files_section_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -1376,10 +1376,10 @@ e.g. *.* | *.txt | *.mp3</property>
                         <property name="label" translatable="yes">Subfolders</property>
                         <property name="name">checkbox_Subfolders</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Include Subfolders in data grid</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Include Subfolders in data grid</property>
+                        <property name="draw-indicator">True</property>
                         <signal name="toggled" handler="box_9_files_section_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -1393,10 +1393,10 @@ e.g. *.* | *.txt | *.mp3</property>
                         <property name="label" translatable="yes">Files</property>
                         <property name="name">checkbox_Files</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Include Files in data grid</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Include Files in data grid</property>
+                        <property name="draw-indicator">True</property>
                         <signal name="toggled" handler="box_9_files_section_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -1410,10 +1410,10 @@ e.g. *.* | *.txt | *.mp3</property>
                         <property name="label" translatable="yes">Hidden</property>
                         <property name="name">checkbox_Hidden</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">Include hidden files/folders in data grid</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="tooltip-text" translatable="yes">Include hidden files/folders in data grid</property>
+                        <property name="draw-indicator">True</property>
                         <signal name="toggled" handler="box_9_files_section_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -1426,8 +1426,8 @@ e.g. *.* | *.txt | *.mp3</property>
                       <object class="GtkLabel" id="label_Files_File_Name_Min">
                         <property name="name">label_Files_File_Name_Min</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Minimum file name length</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Minimum file name length</property>
                         <property name="label" translatable="yes">Min.
 Len.</property>
                       </object>
@@ -1441,8 +1441,8 @@ Len.</property>
                       <object class="GtkSpinButton" id="spin_File_Name_Min">
                         <property name="name">spin_File_Name_Min</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Min file/folder name length</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Min file/folder name length</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_File_Name_Min</property>
                         <signal name="value-changed" handler="box_9_files_section_changed" swapped="no"/>
@@ -1457,8 +1457,8 @@ Len.</property>
                       <object class="GtkLabel" id="label_Files_File_Name_Max">
                         <property name="name">label_Files_File_Name_Max</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">Maximum file name length</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Maximum file name length</property>
                         <property name="label" translatable="yes">Max.
 Len.</property>
                       </object>
@@ -1472,8 +1472,8 @@ Len.</property>
                       <object class="GtkSpinButton" id="spin_File_Name_Max">
                         <property name="name">spin_File_Name_Max</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Max file/folder name length</property>
+                        <property name="can-focus">True</property>
+                        <property name="tooltip-text" translatable="yes">Max file/folder name length</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adjustment_File_Name_Max</property>
                         <signal name="value-changed" handler="box_9_files_section_changed" swapped="no"/>
@@ -1502,16 +1502,16 @@ Len.</property>
               <object class="GtkBox" id="box_Buttons">
                 <property name="name">box_Buttons</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkButton" id="button_Refresh">
                     <property name="label" translatable="yes">Refresh Data Grid</property>
                     <property name="name">button_Refresh</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Refresh the data grid for the folder (current path)</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Refresh the data grid for the folder (current path)</property>
                     <signal name="clicked" handler="button_Refresh_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -1525,9 +1525,9 @@ Len.</property>
                     <property name="label" translatable="yes">Refresh &amp; Reselect</property>
                     <property name="name">button_Refresh_Reselect</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Refresh the data grid for the folder (current path) and re-select the currently selected rows
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Refresh the data grid for the folder (current path) and re-select the currently selected rows
 This is useful when renaming Subfolders multiple times</property>
                     <signal name="clicked" handler="button_Refresh_and_Reselect_clicked" swapped="no"/>
                   </object>
@@ -1542,9 +1542,9 @@ This is useful when renaming Subfolders multiple times</property>
                     <property name="label" translatable="yes">Reset Options</property>
                     <property name="name">button_Reset</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Reset sections 1-9 and the Rename Pairs back to their original/default values or to whatever options were opened from a settings file</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Reset sections 1-9 and the Rename Pairs back to their original/default values or to whatever options were opened from a settings file</property>
                     <signal name="clicked" handler="button_Reset_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -1558,9 +1558,9 @@ This is useful when renaming Subfolders multiple times</property>
                     <property name="label" translatable="yes">Import Rename Pairs</property>
                     <property name="name">button_Rename_Pairs</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Import a rename pairs file in the form of:  &lt;original file name&gt;/&lt;new file name&gt;
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Import a rename pairs file in the form of:  &lt;original file name&gt;/&lt;new file name&gt;
 Example:  original.txt/new_name.txt</property>
                     <signal name="clicked" handler="button_Rename_Pairs_clicked" swapped="no"/>
                   </object>
@@ -1575,9 +1575,9 @@ Example:  original.txt/new_name.txt</property>
                     <property name="label" translatable="yes">Rename Files</property>
                     <property name="name">button_Rename</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Perform the file rename operation</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Perform the file rename operation</property>
                     <signal name="clicked" handler="button_Rename_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -1591,11 +1591,11 @@ Example:  original.txt/new_name.txt</property>
                     <property name="label" translatable="yes">Save History</property>
                     <property name="name">checkbox_Save_History</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip_text" translatable="yes">Saves the rename information to:  ~/.local/share/BSFEMA/</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="tooltip-text" translatable="yes">Saves the rename information to:  ~/.local/share/BSFEMA/</property>
                     <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                     <signal name="toggled" handler="checkbox_Save_History_toggled" swapped="no"/>
                   </object>
                   <packing>
@@ -1609,9 +1609,9 @@ Example:  original.txt/new_name.txt</property>
                     <property name="label" translatable="yes">Open Settings File</property>
                     <property name="name">button_Open_Settings</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Opens a settings file and loads the values into the UI</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Opens a settings file and loads the values into the UI</property>
                     <signal name="clicked" handler="button_Open_Settings_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -1625,9 +1625,9 @@ Example:  original.txt/new_name.txt</property>
                     <property name="label" translatable="yes">Save Settings Default</property>
                     <property name="name">button_Save_Settings</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Saves the current options set in the UI as the default ones to be loaded the next time the application launches</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Saves the current options set in the UI as the default ones to be loaded the next time the application launches</property>
                     <signal name="clicked" handler="button_Save_Settings_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -1641,9 +1641,9 @@ Example:  original.txt/new_name.txt</property>
                     <property name="label" translatable="yes">Save Settings to File</property>
                     <property name="name">button_SaveAs_Settings</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Saves the current options set in the UI to a file so that they can be loaded at some other point</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Saves the current options set in the UI to a file so that they can be loaded at some other point</property>
                     <signal name="clicked" handler="button_SaveAs_Settings_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -1657,9 +1657,9 @@ Example:  original.txt/new_name.txt</property>
                     <property name="label" translatable="yes">About</property>
                     <property name="name">button_About</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">About this application</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">About this application</property>
                     <signal name="clicked" handler="button_About_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -1686,13 +1686,13 @@ Example:  original.txt/new_name.txt</property>
           <object class="GtkBox" id="box_Status">
             <property name="name">box_Status</property>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label_Status_Rows">
                 <property name="name">label_Status_Rows</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">How many total rows are in the data grid</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">How many total rows are in the data grid</property>
                 <property name="label" translatable="yes">label_Status_Rows</property>
               </object>
               <packing>
@@ -1705,8 +1705,8 @@ Example:  original.txt/new_name.txt</property>
               <object class="GtkAccelLabel" id="label_Status_Selected">
                 <property name="name">label_Status_Selected</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">How many selected rows are in the data grid</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">How many selected rows are in the data grid</property>
                 <property name="label" translatable="yes">label_Status_Selected</property>
               </object>
               <packing>
@@ -1719,8 +1719,8 @@ Example:  original.txt/new_name.txt</property>
               <object class="GtkLabel" id="label_Status_Renamed">
                 <property name="name">label_Status_Renamed</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">How many rows in the data grid were successfully renamed</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">How many rows in the data grid were successfully renamed</property>
                 <property name="label" translatable="yes">label_Status_Renamed</property>
               </object>
               <packing>
@@ -1733,8 +1733,8 @@ Example:  original.txt/new_name.txt</property>
               <object class="GtkLabel" id="label_Status_Failed">
                 <property name="name">label_Status_Failed</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">How many rows in the data grid failed to be renamed</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">How many rows in the data grid failed to be renamed</property>
                 <property name="label" translatable="yes">label_Status_Failed</property>
               </object>
               <packing>
