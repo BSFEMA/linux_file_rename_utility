@@ -1346,6 +1346,7 @@ Folder</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_Use_RegEx">
                             <property name="label" translatable="yes">Use RegEx</property>
+                            <property name="name">radio_Use_RegEx</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
@@ -1364,6 +1365,7 @@ Folder</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_Use_Wildcards">
                             <property name="label" translatable="yes">Use Wildcards</property>
+                            <property name="name">radio_Use_Wildcards</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>

@@ -115,6 +115,8 @@ label#label_Status_Failed {}
 label#label_Status_Renamed {}
 label#label_Status_Rows {}
 label#label_Status_Selected {}
+radiobutton#radio_Use_RegEx {}
+radiobutton#radio_Use_Wildcards {}
 spinbutton#spin_Add_Insert {}
 spinbutton#spin_File_Name_Max {}
 spinbutton#spin_File_Name_Min {}
