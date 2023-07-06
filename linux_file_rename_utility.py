@@ -24,6 +24,7 @@ import os
 import re
 import datetime
 from operator import itemgetter
+import fnmatch
 
 
 default_folder_path = ""  # The path for the filechooser and data grid to work against.  This is the base folder to work against.
@@ -40,6 +41,7 @@ previous_selection = [[], 0, "", True]  # [ [list of selected rows], len(model),
 parameter_files = []  # Holds the file(s) locations passed in via the command line.  To be auto selected.
 alert_color_foreground = "black"  # The foreground color of data grid cell when there is a problem
 alert_color_background = "red"  # The background color of data grid cell when there is a problem
+regex_or_wildcards = "Wildcards"  # Whether the 'Use RegEx' or 'Use Wildcards' radio button is enabled
 
 
 class Main():
@@ -328,6 +330,18 @@ class Main():
     def checkbox_Save_History_toggled(self, widget):
         # This doesn't really have any 'action' at the moment, as it's just a setting to be toggled
         pass
+
+    def radio_Use_RegEx_toggled(self, widget):
+        global regex_or_wildcards
+        radio_Use_RegEx = self.builder.get_object("radio_Use_RegEx")
+        regex_or_wildcards = "RegEx"
+        self.box_9_files_section_changed("Nothing")  # The function takes a "treeselection_object" parameter, but it doesn't use it, so I'm passing it "Nothing"...
+
+    def radio_Use_Wildcards_toggled(self, widget):
+        global regex_or_wildcards
+        radio_Use_Wildcards = self.builder.get_object("radio_Use_Wildcards")
+        regex_or_wildcards = "Wildcards"
+        self.box_9_files_section_changed("Nothing")  # The function takes a "treeselection_object" parameter, but it doesn't use it, so I'm passing it "Nothing"...
 
     def apply_parameter_files_to_selection(self):  # Set the commandline parameter files as selected rows
         # model[item][6] = Full_Path
@@ -720,6 +734,8 @@ class Main():
         checkbox_Files.set_active(True)
         checkbox_Hidden = self.builder.get_object("checkbox_Hidden")
         checkbox_Hidden.set_active(False)
+        radio_Use_Wildcards = self.builder.get_object("radio_Use_Wildcards")
+        radio_Use_Wildcards.set_active(True)
         entry_Mask = self.builder.get_object("entry_Mask")
         entry_Mask.set_text("*.*")
         spin_File_Name_Min = self.builder.get_object("spin_File_Name_Min")
@@ -791,7 +807,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.12")
+        about.set_version("Version 1.13")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -965,6 +981,10 @@ class Main():
             file.write("checkbox_Files=" + str(checkbox_Files.get_active()) + "\n")
             checkbox_Hidden = self.builder.get_object("checkbox_Hidden")
             file.write("checkbox_Hidden=" + str(checkbox_Hidden.get_active()) + "\n")
+            radio_Use_RegEx = self.builder.get_object("radio_Use_RegEx")
+            file.write("radio_Use_RegEx=" + radio_Use_RegEx.get_active() + "\n")
+            radio_Use_Wildcards = self.builder.get_object("radio_Use_Wildcards")
+            file.write("radio_Use_Wildcards=" + radio_Use_Wildcards.get_active() + "\n")
             entry_Mask = self.builder.get_object("entry_Mask")
             file.write("entry_Mask=" + entry_Mask.get_text() + "\n")
             spin_File_Name_Min = self.builder.get_object("spin_File_Name_Min")
@@ -1081,6 +1101,10 @@ class Main():
         file.write("checkbox_Files=" + str(checkbox_Files.get_active()) + "\n")
         checkbox_Hidden = self.builder.get_object("checkbox_Hidden")
         file.write("checkbox_Hidden=" + str(checkbox_Hidden.get_active()) + "\n")
+        radio_Use_RegEx = self.builder.get_object("radio_Use_RegEx")
+        file.write("radio_Use_RegEx=" + radio_Use_RegEx.get_active() + "\n")
+        radio_Use_Wildcards = self.builder.get_object("radio_Use_Wildcards")
+        file.write("radio_Use_Wildcards=" + radio_Use_Wildcards.get_active() + "\n")
         entry_Mask = self.builder.get_object("entry_Mask")
         file.write("entry_Mask=" + entry_Mask.get_text() + "\n")
         spin_File_Name_Min = self.builder.get_object("spin_File_Name_Min")
@@ -1192,6 +1216,12 @@ class Main():
             if setting[0] == "checkbox_Save_History" and setting[1] == "True":
                 checkbox_Save_History = self.builder.get_object(setting[0])
                 checkbox_Save_History.set_active(True)
+            if setting[0] == "radio_Use_RegEx" and setting[1] == "True":
+                radio_Use_RegEx = self.builder.get_object(setting[0])
+                radio_Use_RegEx.set_active(True)
+            if setting[0] == "radio_Use_Wildcards" and setting[1] == "True":
+                radio_Use_Wildcards = self.builder.get_object(setting[0])
+                radio_Use_Wildcards.set_active(True)
             if setting[0] == "entry_Mask" and setting[1] != "":
                 entry_Mask = self.builder.get_object(setting[0])
                 entry_Mask.set_text(setting[1])
@@ -2372,15 +2402,23 @@ def populate_files_Full(entry_Mask, checkbox_Folders, checkbox_Subfolders, check
     # Now to go through that list and remove what doesn't match:
     # Box 9 = entry_Mask, checkbox_Folders, checkbox_Subfolders, checkbox_Files, checkbox_Hidden, spin_File_Name_Min, spin_File_Name_Max
     # entry_Mask = *.*
-    if entry_Mask != "*.*" or entry_Mask[:2] == "*.":
+    global regex_or_wildcards
+    if (regex_or_wildcards == "Wildcards" and entry_Mask != "*.*") or (regex_or_wildcards == "RegEx" and entry_Mask[:2] != "."):
         files_temp = []
         for file in files_unsorted:
             if file[3] == "Folder":
                 files_temp.append(file)
             else:
                 try:
-                    if re.search(entry_Mask.lstrip("*"), file[4]):
-                        files_temp.append(file)
+                    if regex_or_wildcards == "RegEx":
+                        if re.search(str(entry_Mask), file[4]):
+                            files_temp.append(file)
+                    elif regex_or_wildcards == "Wildcards":
+                        if re.search(fnmatch.translate(str(entry_Mask)), file[4]):
+                            files_temp.append(file)
+                    else:  # This should never occur, but use Wildcards as the backup/default
+                        if re.search(fnmatch.translate(str(entry_Mask)), file[4]):
+                            files_temp.append(file)
                 except Exception:  # Catch exception on invalid search
                     # print("Invalid search string")
                     pass
