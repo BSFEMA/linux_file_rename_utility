@@ -334,13 +334,15 @@ class Main():
     def radio_Use_RegEx_toggled(self, widget):
         global regex_or_wildcards
         radio_Use_RegEx = self.builder.get_object("radio_Use_RegEx")
-        regex_or_wildcards = "RegEx"
+        if radio_Use_RegEx.get_active(): regex_or_wildcards = "RegEx"
+        else: regex_or_wildcards = "Wildcards"
         self.box_9_files_section_changed("Nothing")  # The function takes a "treeselection_object" parameter, but it doesn't use it, so I'm passing it "Nothing"...
 
     def radio_Use_Wildcards_toggled(self, widget):
         global regex_or_wildcards
         radio_Use_Wildcards = self.builder.get_object("radio_Use_Wildcards")
-        regex_or_wildcards = "Wildcards"
+        if radio_Use_Wildcards.get_active(): regex_or_wildcards = "Wildcards"
+        else: regex_or_wildcards = "RegEx"
         self.box_9_files_section_changed("Nothing")  # The function takes a "treeselection_object" parameter, but it doesn't use it, so I'm passing it "Nothing"...
 
     def apply_parameter_files_to_selection(self):  # Set the commandline parameter files as selected rows
@@ -807,7 +809,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.13")
+        about.set_version("Version 1.14")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -1102,9 +1104,9 @@ class Main():
         checkbox_Hidden = self.builder.get_object("checkbox_Hidden")
         file.write("checkbox_Hidden=" + str(checkbox_Hidden.get_active()) + "\n")
         radio_Use_RegEx = self.builder.get_object("radio_Use_RegEx")
-        file.write("radio_Use_RegEx=" + radio_Use_RegEx.get_active() + "\n")
+        file.write("radio_Use_RegEx=" + str(radio_Use_RegEx.get_active()) + "\n")
         radio_Use_Wildcards = self.builder.get_object("radio_Use_Wildcards")
-        file.write("radio_Use_Wildcards=" + radio_Use_Wildcards.get_active() + "\n")
+        file.write("radio_Use_Wildcards=" + str(radio_Use_Wildcards.get_active()) + "\n")
         entry_Mask = self.builder.get_object("entry_Mask")
         file.write("entry_Mask=" + entry_Mask.get_text() + "\n")
         spin_File_Name_Min = self.builder.get_object("spin_File_Name_Min")
@@ -1260,6 +1262,9 @@ class Main():
             if setting[0] == "entry_Replace_Search" and setting[1] != "":
                 entry_Replace_Search = self.builder.get_object(setting[0])
                 entry_Replace_Search.set_text(setting[1])
+            elif setting[0] == "entry_Replace_Search" and setting[1] == "":
+                entry_Replace_Search = self.builder.get_object(setting[0])
+                entry_Replace_Search.set_text("")
             if setting[0] == "checkbox_Replace_Case" and setting[1] == "True":
                 checkbox_Folders = self.builder.get_object(setting[0])
                 checkbox_Folders.set_active(True)
@@ -1269,6 +1274,9 @@ class Main():
             if setting[0] == "entry_Replace_With" and setting[1] != "":
                 entry_Replace_With = self.builder.get_object(setting[0])
                 entry_Replace_With.set_text(setting[1])
+            elif setting[0] == "entry_Replace_With" and setting[1] == "":
+                entry_Replace_With = self.builder.get_object(setting[0])
+                entry_Replace_With.set_text("")
             # Box_3
             if setting[0] == "combo_Case" and setting[1] != "":  # [Same], Upper, Lower, Title, Sentence
                 combo_Case = self.builder.get_object(setting[0])
@@ -1337,12 +1345,21 @@ class Main():
             if setting[0] == "entry_Add_Prefix" and setting[1] != "":
                 entry_Add_Prefix = self.builder.get_object(setting[0])
                 entry_Add_Prefix.set_text(setting[1])
+            elif setting[0] == "entry_Add_Prefix" and setting[1] == "":
+                entry_Add_Prefix = self.builder.get_object(setting[0])
+                entry_Add_Prefix.set_text("")
             if setting[0] == "entry_Add_Suffix" and setting[1] != "":
                 entry_Add_Suffix = self.builder.get_object(setting[0])
                 entry_Add_Suffix.set_text(setting[1])
+            elif setting[0] == "entry_Add_Suffix" and setting[1] == "":
+                entry_Add_Suffix = self.builder.get_object(setting[0])
+                entry_Add_Suffix.set_text("")
             if setting[0] == "entry_Add_Insert" and setting[1] != "":
                 entry_Add_Insert = self.builder.get_object(setting[0])
                 entry_Add_Insert.set_text(setting[1])
+            elif setting[0] == "entry_Add_Insert" and setting[1] == "":
+                entry_Add_Insert = self.builder.get_object(setting[0])
+                entry_Add_Insert.set_text("")
             if setting[0] == "spin_Add_Insert" and setting[1] != "":
                 spin_Add_Insert = self.builder.get_object(setting[0])
                 try:
