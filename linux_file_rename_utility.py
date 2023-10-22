@@ -809,7 +809,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.14")
+        about.set_version("Version 1.15")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -1227,6 +1227,9 @@ class Main():
             if setting[0] == "entry_Mask" and setting[1] != "":
                 entry_Mask = self.builder.get_object(setting[0])
                 entry_Mask.set_text(setting[1])
+            elif setting[0] == "entry_Mask" and setting[1] == "":
+                entry_Mask = self.builder.get_object(setting[0])
+                entry_Mask.set_text("*.*")
             if setting[0] == "spin_File_Name_Min" and setting[1] != "":
                 spin_File_Name_Min = self.builder.get_object(setting[0])
                 try:
