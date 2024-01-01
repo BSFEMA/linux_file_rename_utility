@@ -809,7 +809,7 @@ class Main():
         about = gtk.AboutDialog()
         about.connect("key-press-event", self.about_dialog_key_press)  # Easter Egg:  Check to see if Konami code has been entered
         about.set_program_name("Linux File Rename Utility")
-        about.set_version("Version 1.15")
+        about.set_version("Version 1.16")
         about.set_copyright("Copyright (c) BSFEMA")
         about.set_comments("Python application using Gtk and Glade for renaming files/folders in Linux")
         about.set_license_type(gtk.License(7))  # License = MIT_X11
@@ -984,9 +984,9 @@ class Main():
             checkbox_Hidden = self.builder.get_object("checkbox_Hidden")
             file.write("checkbox_Hidden=" + str(checkbox_Hidden.get_active()) + "\n")
             radio_Use_RegEx = self.builder.get_object("radio_Use_RegEx")
-            file.write("radio_Use_RegEx=" + radio_Use_RegEx.get_active() + "\n")
+            file.write("radio_Use_RegEx=" + str(radio_Use_RegEx.get_active()) + "\n")
             radio_Use_Wildcards = self.builder.get_object("radio_Use_Wildcards")
-            file.write("radio_Use_Wildcards=" + radio_Use_Wildcards.get_active() + "\n")
+            file.write("radio_Use_Wildcards=" + str(radio_Use_Wildcards.get_active()) + "\n")
             entry_Mask = self.builder.get_object("entry_Mask")
             file.write("entry_Mask=" + entry_Mask.get_text() + "\n")
             spin_File_Name_Min = self.builder.get_object("spin_File_Name_Min")
